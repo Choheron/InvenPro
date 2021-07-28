@@ -51,15 +51,17 @@ class AddItem(tk.Toplevel):
 
         # Place the data master frame
         mainCanvasFrame.grid(row = 1, column = 0, sticky = "NESW")
+        # Declare widget dictionary to store data
+        self.widgetDict = {}
         # Populate the data frame
         self.popDataFrame()
 
         # Create master button frame
         buttonFrame = tk.Frame(master = self)
         # Create and place buttons
-        self.saveBttn = ttk.Button(master = buttonFrame, text = "Save New Item", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
+        self.saveBttn = ttk.Button(master = buttonFrame, text = "Save New Item", style = "M.TButton", command = lambda: print("Save Item Button Clicked"))
         self.resetBttn = ttk.Button(master = buttonFrame, text = "Reset", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
-        self.cancelBttn = ttk.Button(master = buttonFrame, text = "Cancel", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
+        self.cancelBttn = ttk.Button(master = buttonFrame, text = "Cancel", style = "M.TButton", command = lambda: print("Cancel Button Clicked"))
         self.saveBttn.grid(row = 0, column = 0, sticky = "E")
         self.resetBttn.grid(row = 0, column = 1, sticky = "E")
         self.cancelBttn.grid(row = 0, column = 2, sticky = "E")
