@@ -1,10 +1,10 @@
 import tkinter as tk
 import tkinter.messagebox
 from tkinter import ttk
-
+# ==============================
+# Inital code duplicated from AddSoftware.py window
+# ==============================
 class AddCategory(tk.Toplevel):
-    catDict = None
-
     def __init__(self, master, officeDict, catName):
         super().__init__(master)
         self.parent = master
@@ -12,6 +12,13 @@ class AddCategory(tk.Toplevel):
         self.catName = catName
         self.grab_set()
         self.buildWindow()
+
+    # ==============================
+    # TEXT BOX INTERRUPT METHOD BELOW
+    # ==============================
+    def ignoreInput(self):
+        # Break the input and ignore input as a whole
+        return 'break'
 
     # ==============================
     # DELETE ATTRIBUTES METHOD BELOW
@@ -45,6 +52,11 @@ class AddCategory(tk.Toplevel):
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'] = ttk.Button(master = self.attrFrame, text = "X", style = "M.TButton", command = lambda: self.deleteAttribute(self.widgetDict[f'Attr{attributeNum}']['Index']))
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'].grid(row = self.widgetDict[f'Attr{attributeNum}']['Index'], column = 3)
 
+        # Bind enter key to deselect the textbox
+        self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
+
+        # Increment widget count
         self.widgetDict['count'] += 1
         # Update preview window
         self.updatePreview()
@@ -65,6 +77,11 @@ class AddCategory(tk.Toplevel):
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'] = ttk.Button(master = self.attrFrame, text = "X", style = "M.TButton", command = lambda: self.deleteAttribute(self.widgetDict[f'Attr{attributeNum}']['Index']))
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'].grid(row = self.widgetDict[f'Attr{attributeNum}']['Index'], column = 3)
 
+        # Bind enter key to deselect the textbox
+        self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
+
+        # Increment widget count
         self.widgetDict['count'] += 1
         # Update preview window
         self.updatePreview()
@@ -77,13 +94,13 @@ class AddCategory(tk.Toplevel):
         for widget in self.previewFrame.winfo_children():
             widget.destroy()
 
-        # Create and place an example PC in the preview frame
+        # Create and place an example Item in the preview frame
         tk.Label(master = self.previewFrame, text = (self.widgetDict['Name']['Widget'].get("1.0", 'end-1c')), bg = 'gray55', borderwidth = 1, relief = 'solid').grid(row = 0, column = 0, sticky = 'NESW')
         tk.Label(master = self.previewFrame, text = "MASLD-XX-XXX", font = ("Helvetica", "10", "italic"), bg = 'gray70').grid(row = 1, column = 0, sticky = 'NESW')
         # Loop through and place widgets on preview frame
         currCol = 1
         for widget in self.widgetDict:
-            if((widget == 'count') or (widget == 'Name')): # Skip counting widget
+            if((widget == 'count') or (widget == 'Name') or (widget == 'Nickname')): # Skip counting widget, name widget, and nickname widget
                 continue
             tk.Label(master = self.previewFrame, text = self.widgetDict[widget]['Widget'].get("1.0", 'end-1c'), bg = 'gray55', borderwidth = 1, relief = 'solid').grid(row = 0, column = currCol, sticky = 'NESW')
             if(self.widgetDict[widget]['Type'] == 'Text'):
@@ -121,7 +138,20 @@ class AddCategory(tk.Toplevel):
         elif('ERROR' in string.upper()): # Check to make sure no inputs contain 'ERROR'
             return 'ERROR - The following string: \"ERROR\" is prohibited in any string values.'
         return string
-
+    
+    def checkNickname(self, string):
+        if(string == ''):
+            return 'ERROR - You must provide a Nickname.'
+        elif(string == 'XXX'):
+            return 'ERROR - You must change Nickname from default value.'
+        elif(len(string) >= 4):
+            return 'ERROR - Nickname must be at MAX 3 characters long.'
+        for category in self.officeDict:
+            if(category == 'admin'):
+                continue
+            if(self.officeDict[category]['admin']['nickname'] == string):
+                return f'ERROR - Nickname is already taken by category: \"{category}\"'
+        return string
 
     # ==============================
     # ADD CATEGORY METHOD BELOW (Terminates at end)
@@ -129,40 +159,48 @@ class AddCategory(tk.Toplevel):
     def addCategory(self):
         newCatDict = {}
         # Check category name input
-        catName = self.checkInput(self.widgetDict['Name']['Widget'].get('1.0', 'end-1c'))
+        name = self.checkInput(self.widgetDict['Name']['Widget'].get('1.0', 'end-1c'))
         # Show error if needed
-        if('ERROR' in catName):
-            tk.messagebox.showerror(" Category Addition Error", f'The category could not be added. Error contained the following message for debug:\n{catName}')
+        if('ERROR' in name):
+            tk.messagebox.showerror(" Category Addition Error", f'The category could not be added. Error contained the following message for debug:\n{name}')
             return
 
         # Declare template to show what fields are strings and what are T/F values
         newCatDict['template'] = {} 
         for attr in self.widgetDict:
             # Skip unimportant/un-needed fields
-            if(attr == 'count' or attr == 'Name'):
+            if((attr == 'count') or (attr == 'Name') or (attr == "Nickname")):
                 continue
             attribute = self.checkInput(self.widgetDict[attr]['Widget'].get('1.0', 'end-1c'))
             # Show error if the checkinput returned a failed input
             if('ERROR' in attribute):
-                tk.messagebox.showerror(" Category Addition Error", f'The category could not be added. Error contained the following message for debug:\n{catName}')
+                tk.messagebox.showerror(" Category Addition Error", f'The category could not be added. Error contained the following message for debug:\n{attribute}')
                 return
             # Check if attribute is already in the system.
-            if(((self.widgetDict[attr]['Widget'].get('1.0', 'end-1c')).upper()) in newCatDict['fields']):
-                tk.messagebox.showerror(" Category Addition Error", f'The category could not be added due to a duplicate attribute name.\nCategory addition has been canceled.')
+            if(attribute.upper() in newCatDict['template']):
+                tk.messagebox.showerror(" Category Addition Error", f'The category could not be added due to a duplicate attribute name ({attribute.upper()}).\nCategory addition has been canceled.')
                 return
-            # Add the field to the category field list, make uppercase.
-            newCatDict['fields'].append((self.widgetDict[attr]['Widget'].get('1.0', 'end-1c')).upper())
             # Add field to template and give value based off of type of field
             if(self.widgetDict[attr]['Type'] == 'Checkbox'):
                 newCatDict['template'][(self.widgetDict[attr]['Widget'].get('1.0', 'end-1c')).upper()] = "N"
             else:
                 newCatDict['template'][(self.widgetDict[attr]['Widget'].get('1.0', 'end-1c')).upper()] = "--"
-        # Append log to the fields dict of each new category
-        newCatDict['fields'].append('LOG')
+        # Append log to the template dict of each new category
+        newCatDict['template']['LOG'] = ""
 
+        # Give dictionary an admin dict
+        newCatDict['admin'] = {}
+        # Check nickname to ensure it works
+        nickName = (self.checkNickname(self.widgetDict['Nickname']['Widget'][1].get('1.0', 'end-1c')))
+        if('ERROR' in nickName):
+            tk.messagebox.showerror(" Category Addition Error", f'The input nickname is not valid. Error contained the following message for debug:\n{nickName}')
+            return
+        # Store nickname in admin dict
+        newCatDict['admin']['nickname'] = nickName
         # Add the category to the master category dictionary
-        self.officeDict[catName] = newCatDict
-        self.catName.set(catName)
+        self.officeDict[name] = newCatDict
+        self.catName.set(name)
+        
 
         # Close window after releasing focus
         self.grab_release()
@@ -221,6 +259,10 @@ class AddCategory(tk.Toplevel):
         self.widgetDict['Name']['Widget'].insert(tk.END, "Category Name")
         self.widgetDict['Name']['Type'] = 'Text'
         self.widgetDict['Name']['Index'] = self.widgetDict['count']
+        # Bind enter key to deselect the textbox
+        self.widgetDict['Name']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict['Name']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
+        # Increment widget count
         self.widgetDict['count'] += 1
         # Place category Data
         self.widgetDict['Name']['Label'].grid(row = self.widgetDict['Name']['Index'], column = 0, sticky = "NESW")
@@ -229,14 +271,29 @@ class AddCategory(tk.Toplevel):
         # Declare Identifier label and text entry and place them in widgetDict
         self.widgetDict['Nickname'] = {}
         self.widgetDict['Nickname']['Label'] = tk.Label(master = self.attrFrame, text = "Category Nickname:")
-        self.widgetDict['Nickname']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
-        self.widgetDict['Nickname']['Widget'].insert(tk.END, "Category Nickname")
+        self.widgetDict['Nickname']['Widget'] = []
+        # Create special widget frame for nickname
+        nickFrame = tk.Frame(master = self.attrFrame)
+        # Populate list with two labels and a text widget to allow for nickname setting
+        self.widgetDict['Nickname']['Widget'].append(tk.Label(master = nickFrame, text = "MASLD-"))
+        self.widgetDict['Nickname']['Widget'].append(tk.Text(master = nickFrame, height = 1, width = 3))
+        self.widgetDict['Nickname']['Widget'].append(tk.Label(master = nickFrame, text = "-001"))
+        # Insert Text into nickname textbox
+        self.widgetDict['Nickname']['Widget'][1].insert(tk.END, "XXX")
         self.widgetDict['Nickname']['Type'] = 'Text'
         self.widgetDict['Nickname']['Index'] = self.widgetDict['count']
+        # Populate widget frame with widgets
+        self.widgetDict['Nickname']['Widget'][0].grid(row = 0, column = 0, sticky = "E")
+        self.widgetDict['Nickname']['Widget'][1].grid(row = 0, column = 1, sticky = "NESW")
+        self.widgetDict['Nickname']['Widget'][2].grid(row = 0, column = 2, sticky = "W")
+        # Bind enter key to deselect the textbox
+        self.widgetDict[f'Nickname']['Widget'][1].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict[f'Nickname']['Widget'][1].bind("<Tab>", lambda x=None: self.ignoreInput())
+        # Increment widget count
         self.widgetDict['count'] += 1
-        # Place category Data
+        # Place nickname Data
         self.widgetDict['Nickname']['Label'].grid(row = self.widgetDict['Nickname']['Index'], column = 0, sticky = "NESW")
-        self.widgetDict['Nickname']['Widget'].grid(row = self.widgetDict['Nickname']['Index'], column = 1, sticky = "W")
+        nickFrame.grid(row = self.widgetDict['Nickname']['Index'], column = 1, sticky = "W")
 
         # Declare Location label and text entry and place them in widgetDict
         self.widgetDict['Attr2'] = {}
@@ -246,9 +303,10 @@ class AddCategory(tk.Toplevel):
         self.widgetDict['Attr2']['Widget'].config(state = 'disabled')
         self.widgetDict['Attr2']['Type'] = 'Text'
         self.widgetDict['Attr2']['Index'] = self.widgetDict['count']
-        # Place Install label and text entry
+        # Place Location label and text entry
         self.widgetDict['Attr2']['Label'].grid(row = self.widgetDict['Attr2']['Index'], column = 0, sticky = "E")
         self.widgetDict['Attr2']['Widget'].grid(row = self.widgetDict['Attr2']['Index'], column = 1, sticky = "W")
+        # Increment widget count
         self.widgetDict['count'] += 1
 
         # Create master button frame -- BUTTON MASTER FRAME
@@ -266,7 +324,7 @@ class AddCategory(tk.Toplevel):
         self.previewBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "W")
         self.addTextBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
         self.addTFBttn.grid(row = 0, column = 1, padx = 1, pady = .5, sticky = "E")
-        # Place interna second button frame
+        # Place internal second button frame
         bttnFrame2.grid(row = 0, column = 2, sticky = "NESW")
         # Place master button frame
         bttnFrame.grid(row = 2, column = 0, sticky = "NESW")

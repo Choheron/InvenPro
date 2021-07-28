@@ -85,11 +85,12 @@ class OfficeMenu(tk.Frame):
     # ==============================
     def catBoxSelect(self):
         # Check if listbox is empty, exit function if so
-        if(self.oItemListBox.index(tk.END) == 0):
+        if(self.oCatListBox.index(tk.END) == 0):
             return
         # Enable edit and delete category buttons
         self.editCatBttn.config(state = 'normal')
         self.delCatBttn.config(state = 'normal')
+        self.addItemBttn.config(state = 'normal')
         # Activate the item listbox
         self.activateListbox(self.oItemListBox)
         # Clear the detail frame to make room for new widgets
@@ -113,7 +114,7 @@ class OfficeMenu(tk.Frame):
         # Loop through items and populate list
         for item in categoryDict:
             # Skip template and admin dicts
-            if(item == 'template'):
+            if((item == 'template') or (item == 'admin')):
                 continue
             
             # Add item to list
@@ -133,7 +134,9 @@ class OfficeMenu(tk.Frame):
     # ==============================
 
     def itemBoxSelect(self):
-        # Check if item box is empty
+        # Check if listbox is empty, exit function if so
+        if(self.oItemListBox.index(tk.END) == 0):
+            return
 
         # Get current category and item
         selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
@@ -255,7 +258,7 @@ class OfficeMenu(tk.Frame):
         # Create Item Category button master frame
         oItemCatBttnFrame = tk.Frame(master = self)
         # Create and place item category buttons
-        self.addCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Add Category", style = "M.TButton", command = lambda: print("Add Item Category Button Pressed"))
+        self.addCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Add Category", style = "M.TButton", command = lambda: self.addCategory())
         self.editCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Edit Category", style = "M.TButton", command = lambda: print("Edit Item Category Button Pressed"))
         self.delCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Delete Category", style = "M.TButton", command = lambda: print("Delete Item Category Button Pressed"))
         self.refreshCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Refresh List", style = "M.TButton", command = lambda: print("Refresh Lists Button Pressed"))
@@ -314,6 +317,7 @@ class OfficeMenu(tk.Frame):
         # Disable edit and delete buttons until items or categories are selected
         self.editCatBttn.config(state = 'disabled')
         self.delCatBttn.config(state = 'disabled')
+        self.addItemBttn.config(state = 'disabled')
         self.delItemBttn.config(state = 'disabled')
         self.editDetailsBttn.config(state = 'disabled')
         # Disable item listbox until a category is chosen
