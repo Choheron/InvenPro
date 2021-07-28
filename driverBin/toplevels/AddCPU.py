@@ -349,7 +349,7 @@ class AddCPUMenu(tk.Toplevel):
         aButtnFrame = tk.Frame(master = self)
 
         # Create Save and Cancel Button
-        aSaveButtn = ttk.Button(master = aButtnFrame, text = "Add PC", style = "M.TButton", command = lambda: self.savePC())
+        aSaveButtn = ttk.Button(master = aButtnFrame, text = "Save New PC", style = "M.TButton", command = lambda: self.savePC())
         aCancelButtn = ttk.Button(master = aButtnFrame, text = "Cancel", style = "M.TButton", command = lambda: self.terminate())
         # Place Save and Cancel Button
         aSaveButtn.grid(row = 0, column = 0, padx = .5, pady = .5, sticky = "E")

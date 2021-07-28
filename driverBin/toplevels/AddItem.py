@@ -51,6 +51,12 @@ class AddItem(tk.Toplevel):
 
         # Place the data master frame
         mainCanvasFrame.grid(row = 1, column = 0, sticky = "NESW")
-
         # Populate the data frame
         self.popDataFrame()
+
+        # Create master button frame
+        buttonFrame = tk.Frame(master = self)
+        # Create and place buttons
+        self.saveBttn = ttk.Button(master = buttonFrame, text = "Save New Item", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
+        self.resetBttn = ttk.Button(master = buttonFrame, text = "Reset", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
+        self.cancelBttn = ttk.Button(master = buttonFrame, text = "Cancel", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
