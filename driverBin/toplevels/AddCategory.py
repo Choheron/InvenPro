@@ -167,6 +167,7 @@ class AddCategory(tk.Toplevel):
 
         # Declare template to show what fields are strings and what are T/F values
         newCatDict['template'] = {} 
+        newCatDict['template']['ID'] = "--"
         for attr in self.widgetDict:
             # Skip unimportant/un-needed fields
             if((attr == 'count') or (attr == 'Name') or (attr == "Nickname")):
@@ -190,12 +191,14 @@ class AddCategory(tk.Toplevel):
 
         # Give dictionary an admin dict
         newCatDict['admin'] = {}
+        # Give admin dict a count variable
+        newCatDict['admin']['count'] = 0
         # Check nickname to ensure it works
-        nickName = (self.checkNickname(self.widgetDict['Nickname']['Widget'][1].get('1.0', 'end-1c')))
+        nickName = (self.checkNickname(self.widgetDict['Nickname']['Widget'][1].get('1.0', 'end-1c')).upper())
         if('ERROR' in nickName):
             tk.messagebox.showerror(" Category Addition Error", f'The input nickname is not valid. Error contained the following message for debug:\n{nickName}')
             return
-        # Store nickname in admin dict
+        # Store nickname in admin dict (make capitol)
         newCatDict['admin']['nickname'] = nickName
         # Add the category to the master category dictionary
         self.inventoryDict[name] = newCatDict

@@ -48,8 +48,10 @@ class OfficeMenu(tk.Frame):
         # Disable all required buttons
         self.editCatBttn.config(state = 'disabled')
         self.delCatBttn.config(state = 'disabled')
-        self.delItemBttn.config(state = 'disabled')
+        self.addItemBttn.config(state = 'disabled')
         self.editDetailsBttn.config(state = 'disabled')
+        # Revert add item button text
+        self.addItemBttn.config(text = 'New Item')
         # Clear item listbox
         self.oItemListBox.delete(0, tk.END)
         # Deactivate item listbox
@@ -87,10 +89,16 @@ class OfficeMenu(tk.Frame):
         # Check if listbox is empty, exit function if so
         if(self.oCatListBox.index(tk.END) == 0):
             return
+
+        # Get the string value of the selected category
+        selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
+
         # Enable edit and delete category buttons
         self.editCatBttn.config(state = 'normal')
         self.delCatBttn.config(state = 'normal')
         self.addItemBttn.config(state = 'normal')
+        # Change text on Add Item button
+        self.addItemBttn.config(text = f"New {selectedCat}")
         # Activate the item listbox
         self.activateListbox(self.oItemListBox)
         # Clear the detail frame to make room for new widgets
@@ -104,9 +112,6 @@ class OfficeMenu(tk.Frame):
         self.activateListbox(self.oItemListBox)
         # Clear list of any previous entries
         self.oItemListBox.delete(0, tk.END)
-
-        # Get the string value of the selected category
-        selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
 
         # Create a local reference for easier understanding
         categoryDict = GLOBAL.officeDict[selectedCat]
@@ -261,7 +266,7 @@ class OfficeMenu(tk.Frame):
         self.addCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Add Category", style = "M.TButton", command = lambda: self.addCategory())
         self.editCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Edit Category", style = "M.TButton", command = lambda: print("Edit Item Category Button Pressed"))
         self.delCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Delete Category", style = "M.TButton", command = lambda: print("Delete Item Category Button Pressed"))
-        self.refreshCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Refresh List", style = "M.TButton", command = lambda: print("Refresh Lists Button Pressed"))
+        self.refreshCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Refresh List", style = "M.TButton", command = lambda: self.refreshList())
         self.addCatBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
         self.editCatBttn.grid(row = 0, column = 1, padx = 1, pady = .5, sticky = "E")
         self.delCatBttn.grid(row = 0, column = 2, padx = 1, pady = .5, sticky = "E")
@@ -272,10 +277,8 @@ class OfficeMenu(tk.Frame):
         # Create Item button master frame
         oItemBttnFrame = tk.Frame(master = self)
         # Create and place item buttons
-        self.addItemBttn = ttk.Button(master = oItemBttnFrame, text = "New Item")
-        self.delItemBttn = ttk.Button(master = oItemBttnFrame, text = "Delete Item")
+        self.addItemBttn = ttk.Button(master = oItemBttnFrame, text = "New Item", style = "M.TButton", command = lambda: print("New Item Category Button Pressed"))
         self.addItemBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
-        self.delItemBttn.grid(row = 0, column = 1, padx = 1, pady = .5, sticky = "E")
         # Place item button master frame
         oItemBttnFrame.grid(row = 2, column = 1, sticky = "NE")
 
@@ -318,7 +321,6 @@ class OfficeMenu(tk.Frame):
         self.editCatBttn.config(state = 'disabled')
         self.delCatBttn.config(state = 'disabled')
         self.addItemBttn.config(state = 'disabled')
-        self.delItemBttn.config(state = 'disabled')
         self.editDetailsBttn.config(state = 'disabled')
         # Disable item listbox until a category is chosen
         self.disableListbox(self.oItemListBox)
