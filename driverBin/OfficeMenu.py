@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.messagebox
 from tkinter import ttk
 from .utils import settings as GLOBAL
+from .toplevels.AddCategory import AddCategory
 
 class OfficeMenu(tk.Frame):
     DETAILFRAMECOL = 'gray70'
@@ -17,16 +18,172 @@ class OfficeMenu(tk.Frame):
         self.buildOfficeInventory(root)
 
     # ==============================
+    # CATEGORY BUTTON METHODS BELOW
+    # ==============================
+    def addCategory(self):
+        self.addCatBttn.config(state = 'disabled')
+        catName = tk.StringVar(master = self, value = None)
+        addWindow = AddCategory(self, GLOBAL.officeDict, catName)
+        self.wait_window(addWindow)
+        # If no new category was added, return and do not change anything
+        if((catName.get() == None) or (catName.get() == "None")):
+            self.addCatBttn.config(state = 'normal')
+            return
+        # Return the add category button to normal state    
+        self.addCatBttn.config(state = 'normal')
+        # Set catName to None
+        catName.set(None)
+        # Save global software dict to system
+        GLOBAL.saveOfficedict()
+        # Refresh software list
+        self.refreshList()
+        return
+
+    def delCategory(self):
+        pass
+    
+    def refreshList(self):
+        # Clear detail frame
+        self.clearDetailFrame()
+        # Disable all required buttons
+        self.editCatBttn.config(state = 'disabled')
+        self.delCatBttn.config(state = 'disabled')
+        self.delItemBttn.config(state = 'disabled')
+        self.editDetailsBttn.config(state = 'disabled')
+        # Clear item listbox
+        self.oItemListBox.delete(0, tk.END)
+        # Deactivate item listbox
+        self.disableListbox(self.oItemListBox)
+        # Clear category listbox
+        self.oCatListBox.delete(0, tk.END)
+        # Loop Through and populate category listbox
+        for category in GLOBAL.officeDict:
+            # Skip admin dict
+            if(category == 'admin'):
+                continue
+            self.oCatListBox.insert(tk.END, category)
+
+    # ==============================
+    # ITEM BUTTON METHODS BELOW
+    # ==============================
+    def addItem(self):
+        pass
+
+    def delItem(self):
+        pass
+
+    # ==============================
+    # DETAIL FRAME METHODS BELOW
+    # ==============================
+    def clearDetailFrame(self):
+        # Clear the detail frame of all widgets if need be
+        for wid in self.detailFrame.winfo_children():
+            wid.destroy()
+
+    # ==============================
     # CATEGORY LISTBOX SELECTION AND EDITING METHODS BELOW
     # ==============================
-    def categoryBoxSelect(self):
+    def catBoxSelect(self):
+        # Check if listbox is empty, exit function if so
+        if(self.oItemListBox.index(tk.END) == 0):
+            return
+        # Enable edit and delete category buttons
+        self.editCatBttn.config(state = 'normal')
+        self.delCatBttn.config(state = 'normal')
+        # Activate the item listbox
+        self.activateListbox(self.oItemListBox)
+        # Clear the detail frame to make room for new widgets
+        self.clearDetailFrame()
+        # Configure detail frame label to include new instruction
+        self.oDetailTitle.config(text = "Select an Item from the list to view details:")
+        # Ensure the edit details button is disabled in order to make sure the user cannot cause error
+        self.editDetailsBttn.config(state = 'disabled')
+
+        # Activate the listbox if it is still disabled at call
+        self.activateListbox(self.oItemListBox)
+        # Clear list of any previous entries
+        self.oItemListBox.delete(0, tk.END)
+
+        # Get the string value of the selected category
+        selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
+
+        # Create a local reference for easier understanding
+        categoryDict = GLOBAL.officeDict[selectedCat]
+
+        # Loop through items and populate list
+        for item in categoryDict:
+            # Skip template and admin dicts
+            if(item == 'template'):
+                continue
+            
+            # Add item to list
+            self.oItemListBox.insert(tk.END, item)
+
+            # Color item based off of if it is currently in use or not
+            if(categoryDict[item]['ACTIVE'] == "Y"):
+                self.oItemListBox.itemconfig(tk.END, bg = 'yellow green')
+            else:
+                self.oItemListBox.itemconfig(tk.END, bg = 'indian red')
+
+
         pass
 
     # ==============================
     # ITEM LISTBOX SELECTION AND EDITING METHODS BELOW
     # ==============================
+
     def itemBoxSelect(self):
-        pass
+        # Check if item box is empty
+
+        # Get current category and item
+        selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
+        selectedItem = str((self.oItemListBox.get(self.oItemListBox.curselection())))
+
+        # Clear detail frame to allow for clean slate
+        self.clearDetailFrame()
+        # Update label to show current information
+        self.oDetailTitle.config(text = f'Displaying \"{selectedCat}\" information for \"{selectedItem}\":')
+
+        # Make columns have weight of 1 and minimum sizes to avoid ugly visual movement
+        self.detailFrame.grid_columnconfigure(0, weight = 1)
+        self.detailFrame.grid_columnconfigure(0, minsize = 200)
+        self.detailFrame.grid_columnconfigure(1, weight = 1)
+        self.detailFrame.grid_columnconfigure(1, minsize = 200)
+
+        # Declare local row counter and varList
+        dRow = 0
+        checkVarInt = 0
+        # Declare a list of vars to be used for the checkbuttons (NOTE: IMPORTANT - This setup is required in order to avoid garbage collection and maintain values)
+        self.checkVars = []
+        # Loop through fields and place them on the detail canvas
+        for field in GLOBAL.officeDict[selectedCat]['template']:
+            # Skip ID, as it is shown on the listbox
+            if(field == 'ID'):
+                continue
+            # Create and place label for each field
+            fieldLabel = tk.Label(master = self.detailFrame, text = f'{field}:', font = "Times 12 bold", bg = self.DETAILFRAMECOL)
+            fieldLabel.grid(row = dRow, column = 0, sticky = "E")
+            # Delcare placeholder for widget
+            widget = None
+            # Create checkbox or label based off of data type
+            if((GLOBAL.officeDict[selectedCat][selectedItem][field] == "Y") or (GLOBAL.officeDict[selectedCat][selectedItem][field] == "N")):
+                self.checkVars.insert(checkVarInt, tk.BooleanVar())
+                widget = tk.Checkbutton(master = self.detailFrame, var = self.checkVars[checkVarInt], bg = self.DETAILFRAMECOL, disabledforeground = 'green')
+                # Set checkbox status depending on variable
+                if(GLOBAL.officeDict[selectedCat][selectedItem][field] == 'Y'):
+                    self.checkVars[checkVarInt].set(True)
+                else:
+                    self.checkVars[checkVarInt].set(False)
+                # Disable the checkbutton so the user cannot toggle it, then increment the checkbutton list
+                widget.config(state = 'disabled')
+                checkVarInt += 1
+            else:
+                widget = tk.Label(master = self.detailFrame, text = GLOBAL.officeDict[selectedCat][selectedItem][field], bg = self.DETAILFRAMECOL)
+            # Place either checkbutton or label and increment row counter
+            widget.grid(row = dRow, column = 1, sticky = 'EW')
+            dRow += 1
+        # Enable the edit detail button
+        self.editDetailsBttn.config(state = 'normal')
 
     # "Activates"(Sets state to normal) the listbox passed in
     def activateListbox(self, listbox: tk.Listbox):
@@ -71,7 +228,7 @@ class OfficeMenu(tk.Frame):
         self.oCatListBox.config(yscrollcommand = self.catListBoxScroll.set)
         self.catListBoxScroll.config(command = self.oCatListBox.yview)
         # Bind the update function to the selecting of an item in the software listbox
-        self.oCatListBox.bind('<<ListboxSelect>>', lambda x=None: self.categoryBoxSelect())
+        self.oCatListBox.bind('<<ListboxSelect>>', lambda x=None: self.catBoxSelect())
         # Place category master frame
         oCategoryMaster.grid(row = 1, column = 0, sticky = "NESW")
 
@@ -98,14 +255,14 @@ class OfficeMenu(tk.Frame):
         # Create Item Category button master frame
         oItemCatBttnFrame = tk.Frame(master = self)
         # Create and place item category buttons
-        self.addItemCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Add Category", style = "M.TButton", command = lambda: print("Add Item Category Button Pressed"))
-        self.editItemCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Edit Category", style = "M.TButton", command = lambda: print("Edit Item Category Button Pressed"))
-        self.delItemCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Delete Category", style = "M.TButton", command = lambda: print("Delete Item Category Button Pressed"))
-        self.refreshItemCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Refresh List", style = "M.TButton", command = lambda: print("Refresh Lists Button Pressed"))
-        self.addItemCatBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
-        self.editItemCatBttn.grid(row = 0, column = 1, padx = 1, pady = .5, sticky = "E")
-        self.delItemCatBttn.grid(row = 0, column = 2, padx = 1, pady = .5, sticky = "E")
-        self.refreshItemCatBttn.grid(row = 0, column = 3, padx = 1, pady = .5, sticky = "E")
+        self.addCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Add Category", style = "M.TButton", command = lambda: print("Add Item Category Button Pressed"))
+        self.editCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Edit Category", style = "M.TButton", command = lambda: print("Edit Item Category Button Pressed"))
+        self.delCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Delete Category", style = "M.TButton", command = lambda: print("Delete Item Category Button Pressed"))
+        self.refreshCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Refresh List", style = "M.TButton", command = lambda: print("Refresh Lists Button Pressed"))
+        self.addCatBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
+        self.editCatBttn.grid(row = 0, column = 1, padx = 1, pady = .5, sticky = "E")
+        self.delCatBttn.grid(row = 0, column = 2, padx = 1, pady = .5, sticky = "E")
+        self.refreshCatBttn.grid(row = 0, column = 3, padx = 1, pady = .5, sticky = "E")
         # Place Item Category button master frame
         oItemCatBttnFrame.grid(row = 2, column = 0, sticky = "NE")
 
@@ -144,15 +301,20 @@ class OfficeMenu(tk.Frame):
         self.detailCanvas.config(yscrollcommand = self.detailScrollBar.set)
         # Strange line of code, required for scrollbar to work, defines scrollable area
         self.detailFrame.bind('<Configure>', lambda event: self.detailCanvas.config(scrollregion = self.detailCanvas.bbox('all')))
+        # Bind the detail display function to the selecting of an item in the item listbox
+        self.oItemListBox.bind('<<ListboxSelect>>', lambda x=None: self.itemBoxSelect())
 
         # Place master frame containing canvas and canvas scrollbar
         oDetailMaster.grid(row = 4, column = 0, columnspan = 2, sticky = "NESW")
+        
 
         # Create and place edit details button
         self.editDetailsBttn = ttk.Button(master = self, text = "Edit Details", style = "M.TButton", command = lambda: print("Edit Details Button Pressed"))
         self.editDetailsBttn.grid(row = 5, column = 1, sticky = "E")
         # Disable edit and delete buttons until items or categories are selected
-        self.editItemCatBttn.config(state = 'disabled')
-        self.delItemCatBttn.config(state = 'disabled')
+        self.editCatBttn.config(state = 'disabled')
+        self.delCatBttn.config(state = 'disabled')
         self.delItemBttn.config(state = 'disabled')
         self.editDetailsBttn.config(state = 'disabled')
+        # Disable item listbox until a category is chosen
+        self.disableListbox(self.oItemListBox)
