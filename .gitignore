@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Ignore directory containing sensitive information
-data/
+driverBin/data/
