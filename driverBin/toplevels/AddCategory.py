@@ -5,11 +5,11 @@ from tkinter import ttk
 # Inital code duplicated from AddSoftware.py window
 # ==============================
 class AddCategory(tk.Toplevel):
-    def __init__(self, master, officeDict, catName):
+    def __init__(self, master, inventoryDict, nameVar):
         super().__init__(master)
         self.parent = master
-        self.officeDict = officeDict
-        self.catName = catName
+        self.inventoryDict = inventoryDict
+        self.nameVar = nameVar
         self.grab_set()
         self.buildWindow()
 
@@ -119,7 +119,7 @@ class AddCategory(tk.Toplevel):
     def terminate(self):
         response = tk.messagebox.askokcancel(parent = self, title = " Are you sure?", message = "Current Category addition will be lost.\nAre you sure you want to cancel?")
         if(response):
-            self.catName.set(None)
+            self.nameVar.set(None)
             self.grab_release()
             self.destroy()
         else:
@@ -146,10 +146,10 @@ class AddCategory(tk.Toplevel):
             return 'ERROR - You must change Nickname from default value.'
         elif(len(string) >= 4):
             return 'ERROR - Nickname must be at MAX 3 characters long.'
-        for category in self.officeDict:
+        for category in self.inventoryDict:
             if(category == 'admin'):
                 continue
-            if(self.officeDict[category]['admin']['nickname'] == string):
+            if(self.inventoryDict[category]['admin']['nickname'] == string):
                 return f'ERROR - Nickname is already taken by category: \"{category}\"'
         return string
 
@@ -198,8 +198,8 @@ class AddCategory(tk.Toplevel):
         # Store nickname in admin dict
         newCatDict['admin']['nickname'] = nickName
         # Add the category to the master category dictionary
-        self.officeDict[name] = newCatDict
-        self.catName.set(name)
+        self.inventoryDict[name] = newCatDict
+        self.nameVar.set(name)
         
 
         # Close window after releasing focus
