@@ -1,2 +1,2 @@
 # InvenPro - MASLD
-InvenPro serves as an inventory program, created for "Mid Atlantic Surveying and Land Design"
+InvenPro is an inventory program built entirely in **Python**, created for and currently in use for "Mid Atlantic Surveying and Land Design".
