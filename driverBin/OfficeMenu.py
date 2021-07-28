@@ -4,6 +4,7 @@ import tkinter.messagebox
 from tkinter import ttk
 from .utils import settings as GLOBAL
 from .toplevels.AddCategory import AddCategory
+from .toplevels.AddItem import AddItem
 
 class OfficeMenu(tk.Frame):
     DETAILFRAMECOL = 'gray70'
@@ -23,7 +24,9 @@ class OfficeMenu(tk.Frame):
     def addCategory(self):
         self.addCatBttn.config(state = 'disabled')
         catName = tk.StringVar(master = self, value = None)
+        # Open the add category window
         addWindow = AddCategory(self, GLOBAL.officeDict, catName)
+        # Await termination of the add category window
         self.wait_window(addWindow)
         # If no new category was added, return and do not change anything
         if((catName.get() == None) or (catName.get() == "None")):
@@ -69,7 +72,14 @@ class OfficeMenu(tk.Frame):
     # ITEM BUTTON METHODS BELOW
     # ==============================
     def addItem(self):
-        pass
+        # Get current category
+        selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
+        # Disable add item button
+        self.addItemBttn.config(state = 'disabled')
+        # Open add item window
+        addWin = AddItem(self, GLOBAL.officeDict, selectedCat)
+        # Await the termination of add window
+        self.wait_window(addWin)
 
     def delItem(self):
         pass

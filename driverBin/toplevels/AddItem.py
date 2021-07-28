@@ -60,3 +60,8 @@ class AddItem(tk.Toplevel):
         self.saveBttn = ttk.Button(master = buttonFrame, text = "Save New Item", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
         self.resetBttn = ttk.Button(master = buttonFrame, text = "Reset", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
         self.cancelBttn = ttk.Button(master = buttonFrame, text = "Cancel", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
+        self.saveBttn.grid(row = 0, column = 0, sticky = "E")
+        self.resetBttn.grid(row = 0, column = 1, sticky = "E")
+        self.cancelBttn.grid(row = 0, column = 2, sticky = "E")
+        # Place master button frame
+        buttonFrame.grid(row = 2, column = 0, sticky = "E")
