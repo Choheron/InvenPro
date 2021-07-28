@@ -381,5 +381,3 @@ class AddCategory(tk.Toplevel):
 
         # Disable resizing
         self.resizable(0, 0)
-
-        return

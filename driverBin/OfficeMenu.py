@@ -287,7 +287,7 @@ class OfficeMenu(tk.Frame):
         # Create Item button master frame
         oItemBttnFrame = tk.Frame(master = self)
         # Create and place item buttons
-        self.addItemBttn = ttk.Button(master = oItemBttnFrame, text = "New Item", style = "M.TButton", command = lambda: print("New Item Category Button Pressed"))
+        self.addItemBttn = ttk.Button(master = oItemBttnFrame, text = "New Item", style = "M.TButton", command = lambda: self.addItem())
         self.addItemBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
         # Place item button master frame
         oItemBttnFrame.grid(row = 2, column = 1, sticky = "NE")

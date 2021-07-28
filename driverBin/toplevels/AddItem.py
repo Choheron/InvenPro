@@ -65,3 +65,9 @@ class AddItem(tk.Toplevel):
         self.cancelBttn.grid(row = 0, column = 2, sticky = "E")
         # Place master button frame
         buttonFrame.grid(row = 2, column = 0, sticky = "E")
+
+        # Intercept close button
+        self.protocol("WM_DELETE_WINDOW", lambda: self.terminate())
+
+        # Disable resizing
+        self.resizable(0, 0)
