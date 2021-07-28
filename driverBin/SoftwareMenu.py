@@ -426,7 +426,7 @@ class SoftwareMenu(tk.Frame):
         # Create and place edit details button
         self.editDetailsBttn = ttk.Button(master = self, text = "Edit Details", style = "M.TButton", command = lambda: self.editDetails(self.softwareListBox.curselection(),self.softwareListBox.curselection()))
         self.editDetailsBttn.grid(row = 5, column = 1, sticky = "E")
-        # Disable edit details, edit software and delete software button until a PC is selected
+        # Disable edit details, edit software and delete software button until a PC or Software is selected
         self.editSoftBttn.config(state = 'disabled')
         self.editDetailsBttn.config(state = 'disabled')
         self.deleteSoftBttn.config(state = 'disabled')
