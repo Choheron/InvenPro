@@ -42,3 +42,8 @@ def saveOfficedict():
     global officeDict
     JSONu.dumpJSON(officeDict, officeJsonFilepath)
     softDict = JSONu.loadJSON(officeJsonFilepath)
+
+def saveFielddict():
+    global fieldDict
+    JSONu.dumpJSON(fieldDict, fieldJsonFilepath)
+    fieldDict = JSONu.loadJSON(fieldJsonFilepath)
