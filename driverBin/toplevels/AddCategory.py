@@ -77,7 +77,7 @@ class AddCategory(tk.Toplevel):
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'] = ttk.Button(master = self.attrFrame, text = "X", style = "M.TButton", command = lambda: self.deleteAttribute(self.widgetDict[f'Attr{attributeNum}']['Index']))
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'].grid(row = self.widgetDict[f'Attr{attributeNum}']['Index'], column = 3)
 
-        # Bind enter key to deselect the textbox
+        # Bind enter key and tab to deselect the textbox
         self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
         self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
 
@@ -187,6 +187,7 @@ class AddCategory(tk.Toplevel):
             else:
                 newCatDict['template'][(self.widgetDict[attr]['Widget'].get('1.0', 'end-1c')).upper()] = "--"
         # Append log to the template dict of each new category
+        newCatDict['template']['ACTIVE'] = "Y"
         newCatDict['template']['LOG'] = ""
 
         # Give dictionary an admin dict

@@ -10,8 +10,54 @@ class AddItem(tk.Toplevel):
         self.grab_set()
         self.buildWindow()
 
-    def popDataFrame(self):
+    # ==============================
+    # TEXT BOX INTERRUPT METHOD BELOW
+    # ==============================
+    def ignoreInput(self):
+        # Break the input and ignore input as a whole
+        return 'break'
+
+    def nextAvailNum(self):
         pass
+
+    def popDataFrame(self):
+        # Configure columns of data frame
+        self.dataFrame.grid_columnconfigure(0, weight = 1)
+        self.dataFrame.grid_columnconfigure(1, weight = 1)
+
+        # Declare a data frame dict to hold all widgets
+        self.dataDict = {}
+        # Declare local row counter
+        dRow = 0
+        # Do special case for ID Num
+        self.dataDict["ID"] = {}
+        self.dataDict["ID"]['label'] = tk.Label(master = self.dataFrame, text = "Item ID:").grid(row = dRow, column = 0, sticky = "E")
+        self.dataDict["ID"]['var'] = tk.StringVar(master = self.dataFrame, value = "")
+        # Declare and populate Frame to hold ID Textbox and ID Button
+        self.idFrame = tk.Frame(master = self.dataFrame)
+        self.dataDict["ID"]['widget'] = tk.Text(master = self.idFrame, height = 1, width = 3)
+        self.dataDict["ID"]['widget'].insert(tk.END, "XXX")
+        # Place a label before the textbox that uses nickname
+        tk.Label(master = self.idFrame, text = f"MASLD-{self.inventoryDict[self.category]['admin']['nickname']}-").grid(row = 0, column = 0, sticky = "E")
+        # Place textbox in frame
+        self.dataDict["ID"]['widget'].grid(row = 0, column = 1, sticky = "W")
+        # Create and place next open id button
+        ttk.Button(master = self.idFrame, text = "Next Open ID", style = "M.TButton", command = lambda: self.nextAvailNum()).grid(row = 0, column = 2, sticky = "EW")
+        # Bind enter key and tab to deselect the textbox
+        self.dataDict["ID"]['widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.dataDict["ID"]['widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
+        # Place ID Frame
+        self.idFrame.grid(row = dRow, column = 1, sticky = "EW")
+
+        # Loop Through template and populate data frame
+
+    def terminate(self):
+        response = messagebox.askyesno(" Cancel Item Addition?", "If you cancel now, the item will NOT be added to the system.\nAre you sure you would like to cancel?")
+        if(response):
+            self.grab_release()
+            self.destroy()
+        else:
+            return
 
     def buildWindow(self):
         self.title(f' Add New {self.category}')
