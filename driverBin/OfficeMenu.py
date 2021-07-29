@@ -60,7 +60,7 @@ class OfficeMenu(tk.Frame):
             del GLOBAL.softDict[category]
             # Refresh listbox if a category was deleted
             self.refreshList()
-            tk.messagebox.showinfo(" Deletion successful", f"Successfully deleted {category} from the system... If this was a mistake you will need to re-add the category and re-enter all associated data.")
+            messagebox.showinfo(" Deletion successful", f"Successfully deleted {category} from the system... If this was a mistake you will need to re-add the category and re-enter all associated data.")
             # Save new dict to finalize deletion
             GLOBAL.saveSoftdict()
         else:
@@ -281,7 +281,7 @@ class OfficeMenu(tk.Frame):
         upTextLabel.grid(row = 1, column = 0, sticky = "E")
         self.updateTextLabel.grid(row = 1, column = 1, sticky = "W")
         # Place master directions frame
-        oDirectionFrame.grid(row = 0, column = 0, columnspan = 2, sticky = "NESW")
+        oDirectionFrame.grid(row = 0, column = 0, columnspan = 2)
 
         # Create master frame for category listbox
         oCategoryMaster = tk.Frame(master = self)
