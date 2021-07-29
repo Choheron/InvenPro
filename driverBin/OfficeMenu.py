@@ -5,6 +5,7 @@ from .utils import settings as GLOBAL
 from .toplevels.AddCategory import AddCategory
 from .toplevels.AddItem import AddItem
 from .toplevels.EditItemDetails import EditItemDetails
+from .toplevels.InputDialogue import InputDioBox
 
 class OfficeMenu(tk.Frame):
     DETAILFRAMECOL = 'gray70'
@@ -36,14 +37,36 @@ class OfficeMenu(tk.Frame):
         self.addCatBttn.config(state = 'normal')
         # Set catName to None
         catName.set(None)
-        # Save global software dict to system
+        # Save global category dict to system
         GLOBAL.saveOfficedict()
-        # Refresh software list
+        # Refresh category list
         self.refreshList()
         return
 
     def delCategory(self):
-        pass
+        # Get currently selected category from category list
+        category = str((self.oCatListBox.get(self.oCatListBox.curselection())))
+        # Store result variable
+        resultVar = tk.StringVar(master = self, value = "")
+        # Write out message
+        wMessage = "WARNING: Please note, deletion of a category is FINAL and will result in the loss of ALL associated data.\n\nIf you are SURE you would like to delete "
+        wMessage += f"the category from the system, please type the category name as seen on screen and press submit.\nCategory: \"{category}\""
+        # Delcare and wait for user input
+        warningWin = InputDioBox(self, " Are you sure?", wMessage, resultVar)
+        self.wait_window(warningWin)
+        # Delete category from list if user input correctly
+        if(resultVar.get() == category):
+            # Delete category from dict
+            del GLOBAL.softDict[category]
+            # Refresh listbox if a category was deleted
+            self.refreshList()
+            tk.messagebox.showinfo(" Deletion successful", f"Successfully deleted {category} from the system... If this was a mistake you will need to re-add the category and re-enter all associated data.")
+            # Save new dict to finalize deletion
+            GLOBAL.saveSoftdict()
+        else:
+            messagebox.showinfo(" Deletion UNSUCESSFUL", f"IMPORTANT: {category} has NOT been deleted from the system.")
+        
+        return
 
     def editCategory(self):
         warnWindow = messagebox.showwarning(" Feature not yet implemented", "This feature has not yet been implemented, as InvenPro is a work is progress and may require revising and further expanding." +
@@ -72,6 +95,7 @@ class OfficeMenu(tk.Frame):
             if(category == 'admin'):
                 continue
             self.oCatListBox.insert(tk.END, category)
+        self.updateTextLabel.config(text = f'{GLOBAL.officeDict["admin"]["updated"]}')
 
     # ==============================
     # ITEM BUTTON METHODS BELOW
@@ -251,8 +275,11 @@ class OfficeMenu(tk.Frame):
         oDirectionFrame = tk.Frame(master = self)
         # Create and place direction labels
         oMainDirections = tk.Label(master = oDirectionFrame, text = "Below is a list of all office inventory items, select one to expand the menus or add new ones using the buttons.")
-        # TODO: Include more directions as well as last updated times
-        oMainDirections.grid(row = 0, column = 0, sticky = "NESW")
+        upTextLabel = tk.Label(master = oDirectionFrame, text = "Office Category List Last Updated:")
+        self.updateTextLabel = tk.Label(master = oDirectionFrame, text = f'{GLOBAL.officeDict["admin"]["updated"]}')
+        oMainDirections.grid(row = 0, column = 0, columnspan = 2, sticky = "NESW")
+        upTextLabel.grid(row = 1, column = 0, sticky = "E")
+        self.updateTextLabel.grid(row = 1, column = 1, stiky = "W")
         # Place master directions frame
         oDirectionFrame.grid(row = 0, column = 0, columnspan = 2, sticky = "NESW")
 
