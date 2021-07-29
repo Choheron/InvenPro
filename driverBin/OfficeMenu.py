@@ -279,7 +279,7 @@ class OfficeMenu(tk.Frame):
         self.updateTextLabel = tk.Label(master = oDirectionFrame, text = f'{GLOBAL.officeDict["admin"]["updated"]}')
         oMainDirections.grid(row = 0, column = 0, columnspan = 2, sticky = "NESW")
         upTextLabel.grid(row = 1, column = 0, sticky = "E")
-        self.updateTextLabel.grid(row = 1, column = 1, stiky = "W")
+        self.updateTextLabel.grid(row = 1, column = 1, sticky = "W")
         # Place master directions frame
         oDirectionFrame.grid(row = 0, column = 0, columnspan = 2, sticky = "NESW")
 
