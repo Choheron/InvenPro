@@ -18,6 +18,13 @@ class EditSoftDetails(tk.Toplevel):
         self.buildWindow()
     
     # ==============================
+    # TEXT BOX INTERRUPT METHOD BELOW
+    # ==============================
+    def ignoreInput(self):
+        # Break the input and ignore input as a whole
+        return 'break'
+
+    # ==============================
     # APPLY METHOD (CLOSES THE WINDOW)
     # ==============================
     def apply(self):
@@ -96,6 +103,9 @@ class EditSoftDetails(tk.Toplevel):
                 self.internalDict[field]['var'] = tk.StringVar(master = internalFrame, value = f'{self.softDict[self.currSoft][self.currPC][field]}')
                 self.internalDict[field]['widget'] = tk.Text(master = internalFrame, height = 1, width = 30)
                 self.internalDict[field]['widget'].insert(tk.END, self.internalDict[field]['var'].get())
+                # Bind enter key and tab to deselect the textbox
+                self.internalDict[field]['widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+                self.internalDict[field]['widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
             else:
                 self.internalDict[field]['type'] = 'Checkbox'
                 self.internalDict[field]['var'] = tk.BooleanVar(master = internalFrame, value = (True if (self.softDict[self.currSoft][self.currPC][field] == "Y") else False))
