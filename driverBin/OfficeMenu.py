@@ -1,7 +1,6 @@
 from datetime import datetime
 import tkinter as tk
-import tkinter.messagebox
-from tkinter import ttk
+from tkinter import messagebox, ttk
 from .utils import settings as GLOBAL
 from .toplevels.AddCategory import AddCategory
 from .toplevels.AddItem import AddItem
@@ -45,6 +44,11 @@ class OfficeMenu(tk.Frame):
 
     def delCategory(self):
         pass
+
+    def editCategory(self):
+        warnWindow = messagebox.showwarning(" Feature not yet implemented", "This feature has not yet been implemented, as InvenPro is a work is progress and may require revising and further expanding." +
+                                                    "\nFor the time being, you can delete the previous category and readd a new one, just be sure to write down all the values!\nThank you for your patience.")
+        return
     
     def refreshList(self):
         # Clear detail frame
@@ -88,9 +92,6 @@ class OfficeMenu(tk.Frame):
         # Reactivate add Item button
         self.addItemBttn.config(state = 'normal')
 
-    def delItem(self):
-        pass
-
     # ==============================
     # DETAIL FRAME METHODS BELOW
     # ==============================
@@ -104,8 +105,9 @@ class OfficeMenu(tk.Frame):
         self.editDetailsBttn.config(state = 'disabled')
         # Get current category and item
         selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
-        selectedCatIndex = self.oCatListBox.curselection()
         selectedItem = str((self.oItemListBox.get(self.oItemListBox.curselection())))
+        # Store currently selected values
+        selectedCatIndex = self.oCatListBox.curselection()
         selectedItemIndex = self.oItemListBox.curselection()
         # Create edit details window
         editWin = EditItemDetails(self, GLOBAL.officeDict, selectedCat, selectedItem)
@@ -113,8 +115,15 @@ class OfficeMenu(tk.Frame):
         self.wait_window(editWin)
         # Reactivate edit details button
         self.editDetailsBttn.config(state = 'normal')
+        # Save changes made
+        GLOBAL.saveOfficedict()
         # Refresh list
         self.refreshList()
+        # Attempt to select the values again
+        self.oCatListBox.selection_set(selectedCatIndex)
+        self.oCatListBox.activate(selectedCatIndex)
+        self.oItemListBox.selection_set(selectedItemIndex)
+        self.oItemListBox.activate(selectedItemIndex)
 
     # ==============================
     # CATEGORY LISTBOX SELECTION AND EDITING METHODS BELOW
@@ -295,8 +304,8 @@ class OfficeMenu(tk.Frame):
         oItemCatBttnFrame = tk.Frame(master = self)
         # Create and place item category buttons
         self.addCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Add Category", style = "M.TButton", command = lambda: self.addCategory())
-        self.editCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Edit Category", style = "M.TButton", command = lambda: print("Edit Item Category Button Pressed"))
-        self.delCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Delete Category", style = "M.TButton", command = lambda: print("Delete Item Category Button Pressed"))
+        self.editCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Edit Category", style = "M.TButton", command = lambda: self.editCategory())
+        self.delCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Delete Category", style = "M.TButton", command = lambda: self.delCategory())
         self.refreshCatBttn = ttk.Button(master = oItemCatBttnFrame, text = "Refresh List", style = "M.TButton", command = lambda: self.refreshList())
         self.addCatBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
         self.editCatBttn.grid(row = 0, column = 1, padx = 1, pady = .5, sticky = "E")
