@@ -22,6 +22,15 @@ class MainMenuBar(tk.Menu):
     def buildMenu(self):
         # Delcare file menu and add commands
         fileMenu = tk.Menu(self, tearoff = 0)
+        # Declare "New" submenu
+        newMenu = tk.Menu(self, tearoff = 0)
+        newMenu.add_command(label = "PC", command = lambda x=None: self.newPC())
+        newMenu.add_command(label = "Software", command = lambda x=None: self.newSoftware())
+        newMenu.add_command(label = "Office Category", command = lambda x=None: self.newOfficeCat())
+        newMenu.add_command(label = "Field Category", command = lambda x=None: self.newFieldCat())
+        # Add "New" submenu
+        fileMenu.add_cascade(label = "New...", menu = newMenu)
+        fileMenu.add_separator()
         fileMenu.add_command(label = "EXIT", command = lambda: self.systemTerminate())
         self.add_cascade(label = "File", menu = fileMenu)
 
@@ -53,6 +62,9 @@ class MainMenuBar(tk.Menu):
         else:
             return
 
+    # ==============================
+    # PAGE SWITCHING METHODS BELOW
+    # ==============================
     # Open About page on click
     def aboutPage(self):
         AboutPopup(self)
@@ -87,3 +99,22 @@ class MainMenuBar(tk.Menu):
     def helpIndex(self):
         print("HELP INDEX NOT IMPLEMENTED")
         return
+    
+    # ==============================
+    # FILE>NEW METHODS BELOW
+    # ==============================
+    def newPC(self):
+        self.raisePCPage()
+        self.pageDict['cpuMenu'].addPC()
+    
+    def newSoftware(self):
+        self.raiseSoftwarePage()
+        self.pageDict['softwareMenu'].addSoftware()
+
+    def newOfficeCat(self):
+        self.raiseOfficePage()
+        self.pageDict['officeMenu'].addCategory()
+
+    def newFieldCat(self):
+        self.raiseFieldPage()
+        self.pageDict['fieldMenu'].addCategory()
