@@ -69,7 +69,7 @@ class SoftwareMenu(tk.Frame):
     def editDetails(self, softIndex, pcIndex):
         # Get the current selections
         software = str((self.softwareListBox.get(self.softwareListBox.curselection())))
-        pc = str((self.pcListBox.get(self.pcListBox.curselection())))
+        pc = str((self.pcListBox.get(self.pcListBox.curselection())))[:12]
         # Disable edit details button
         self.editDetailsBttn.config(state = 'disabled')
         # Declare new edit details window
@@ -125,7 +125,7 @@ class SoftwareMenu(tk.Frame):
     def popDetailBox(self):
         # Store the currently selected software and pc
         software = str((self.softwareListBox.get(self.softwareListBox.curselection())))
-        pc = str((self.pcListBox.get(self.pcListBox.curselection())))
+        pc = str((self.pcListBox.get(self.pcListBox.curselection())))[:12]
 
         # Clear the detail frame
         self.clearDetailFrame()
@@ -215,7 +215,7 @@ class SoftwareMenu(tk.Frame):
             if(pc == "fields"):
                 fields = softDict[pc]
                 continue
-            self.pcListBox.insert(tk.END, pc)
+            self.pcListBox.insert(tk.END, (pc + ": " + GLOBAL.pcDict[pc]['userInit']))
             # Special cases for Microsoft Office, TODO: See a way to improve this and abstract it
             if(selectedvalue == "Microsoft Office"): 
                 anyInstalled = False
