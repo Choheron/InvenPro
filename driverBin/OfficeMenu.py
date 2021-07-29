@@ -37,7 +37,7 @@ class OfficeMenu(tk.Frame):
         self.addCatBttn.config(state = 'normal')
         # Set catName to None
         catName.set(None)
-        # Save global category dict to system
+        # Save global office dict to system
         GLOBAL.saveOfficedict()
         # Refresh category list
         self.refreshList()
