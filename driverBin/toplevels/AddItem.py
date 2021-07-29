@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import Checkbutton, messagebox, ttk
+from tkinter import messagebox, ttk
+from datetime import datetime
 
 class AddItem(tk.Toplevel):
     dataDict = {}
@@ -107,6 +108,83 @@ class AddItem(tk.Toplevel):
             dRow += 1
 
     # ==============================
+    # SHOW ERROR METHOD BELOW
+    # ==============================
+    def showError(self, message):
+        messagebox.showerror(" Add Item Error", message)
+        return
+
+    # ==============================
+    # INPUT CHECKING METHOD BELOW
+    # ==============================
+    def checkID(self, idString):
+        # Check for Null or empty string
+        if((idString == None) or (idString == "")):
+            return 'ERROR - ID number must be provided'
+        elif(idString.strip() == ""):
+            return 'ERROR - ID number cannot be only whitespace'
+        # Check for length requirements
+        elif(len(idString) != 3):
+            return 'ERROR - ID number MUST be three characters long, if this is an issue of quantity of items please submit a bug report.'
+        # Check if string has letters
+        elif(not(idString.isdecimal())):
+            return 'ERROR - ID number must be ONLY numerical values.'
+        else:
+            return idString
+        
+    def checkInput(self, input):
+        # Check for Null or empty string, replace with '--'
+        if((input == None) or (input == "")):
+            return '--'
+        elif(input.strip() == ""):
+            return '--'
+        # Check for "ERROR" string
+        elif('ERROR' in input.upper()):
+            return 'ERROR - No fields can contain the following string \"Error\" (Case Unsensitive).'
+        else:
+            return input
+
+    # ==============================
+    # APPLY METHOD BELOW - Closes window
+    # ==============================
+    def applyItem(self):
+        outDict = {}
+        itemID = f"MASLD-{self.inventoryDict[self.category]['admin']['nickname']}-"
+        for field in self.inventoryDict[self.category]['template']:
+            # Make the log the time of item addition
+            if(field == "LOG"):
+                outDict[field] = (str)(datetime.now())[:-7]
+                continue
+            # Check special case for ID
+            if(field == "ID"):
+                idString = self.dataDict[field]['widget'].get('1.0', 'end-1c')
+                idOutString = self.checkID(idString)
+                if('ERROR' in idOutString):
+                    self.showError(message = f'The category could not be added. Error contained the following message for debug:\n{idOutString}')
+                    return
+                itemID += idOutString
+                outDict[field] = itemID
+            # Check if widget is a Checkbutton
+            if(isinstance(self.dataDict[field]['widget'], tk.Checkbutton)):
+                if(self.dataDict[field]['var'].get()):
+                    outDict[field] = "Y"
+                else: 
+                    outDict[field] = "N"
+            else:
+                # Check and format input of field for storage
+                inputChecked = self.checkInput(self.dataDict[field]['widget'].get('1.0', 'end-1c'))
+                if('ERROR' in inputChecked):
+                    self.showError(message = f'The category could not be added. Error contained the following message for debug:\n{inputChecked}')
+                    return
+                outDict[field] = inputChecked
+        
+        # Store outDict in the inventory dict (Will save in office menu code)
+        self.inventoryDict[self.category][itemID] = outDict
+        # Release grab and close window
+        self.grab_release()
+        self.destroy()
+
+    # ==============================
     # RESET METHOD BELOW
     # ==============================
     def resetValues(self):
@@ -189,7 +267,7 @@ class AddItem(tk.Toplevel):
         # Create master button frame
         buttonFrame = tk.Frame(master = self)
         # Create and place buttons
-        self.saveBttn = ttk.Button(master = buttonFrame, text = "Save New Item", style = "M.TButton", command = lambda: print("Save Item Button Clicked"))
+        self.saveBttn = ttk.Button(master = buttonFrame, text = "Save New Item", style = "M.TButton", command = lambda: self.applyItem())
         self.resetBttn = ttk.Button(master = buttonFrame, text = "Clear All", style = "M.TButton", command = lambda: self.resetValues())
         self.cancelBttn = ttk.Button(master = buttonFrame, text = "Cancel", style = "M.TButton", command = lambda: self.terminate())
         self.saveBttn.grid(row = 0, column = 0, sticky = "E")

@@ -80,6 +80,10 @@ class OfficeMenu(tk.Frame):
         addWin = AddItem(self, GLOBAL.officeDict, selectedCat)
         # Await the termination of add window
         self.wait_window(addWin)
+        # Save changes made by addItem window
+        GLOBAL.saveOfficedict()
+        # Refresh lists
+        self.refreshList()
 
     def delItem(self):
         pass
@@ -140,9 +144,6 @@ class OfficeMenu(tk.Frame):
                 self.oItemListBox.itemconfig(tk.END, bg = 'yellow green')
             else:
                 self.oItemListBox.itemconfig(tk.END, bg = 'indian red')
-
-
-        pass
 
     # ==============================
     # ITEM LISTBOX SELECTION AND EDITING METHODS BELOW
