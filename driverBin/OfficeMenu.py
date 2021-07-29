@@ -216,7 +216,7 @@ class OfficeMenu(tk.Frame):
         # Update label to show current information
         self.oDetailTitle.config(text = f'Displaying \"{selectedCat}\" information for \"{selectedItem}\":')
 
-        # Make columns have weight of 1 and minimum sizes to avoid ugly visual movement
+        # Make columns have weight of 1 and minimum sizes to avoid ugly visual movement (NOTE: ALREADY DONE IN BUILDWINDOW)
         self.detailFrame.grid_columnconfigure(0, weight = 1)
         self.detailFrame.grid_columnconfigure(0, minsize = 200)
         self.detailFrame.grid_columnconfigure(1, weight = 1)
@@ -364,6 +364,9 @@ class OfficeMenu(tk.Frame):
         # Set weights of grid in frame
         self.detailFrame.grid_columnconfigure(0, weight = 1)
         self.detailFrame.grid_columnconfigure(1, weight = 1)
+        # Set minsizes of grid in frame
+        self.detailFrame.grid_columnconfigure(0, minsize = 200)
+        self.detailFrame.grid_columnconfigure(1, minsize = 200)
         # Attach frame to internals of center canvas
         self.windowID = self.detailCanvas.create_window((0, 0), window = self.detailFrame, anchor = 'n')
 
