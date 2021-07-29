@@ -57,7 +57,6 @@ class InvenPro(tk.Tk):
         # Bind universal keypresses
         self.bind('<F1>', lambda x=None: menuBar.helpIndex())
         
-
     # ==============================
     #    TERMINATION METHODS BELOW
     # ==============================
