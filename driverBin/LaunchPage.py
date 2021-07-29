@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import ImageTk
+from .utils import settings as GLOBAL
 
 
 class StartPage(tk.Frame):
@@ -13,14 +14,14 @@ class StartPage(tk.Frame):
 
         imageFrame = tk.Frame(master = self)
         greetingFrame = tk.Frame(master = self)
-        buttonFrame = tk.Frame(master = self)
+        
 
         image = ImageTk.PhotoImage(file = (os.getcwd() + '/driverBin/images/MASLD Logo/LogoCroppedTransparent.png'))
         startImage = tk.Label(master = imageFrame, image = image)
         startImage.image = image
-        startImage.grid(row = 0, column = 0, columnspan = 3)
+        startImage.grid(row = 0, column = 0)
 
-        greeting = tk.Label(master = greetingFrame, text = "Welcome to the MASLD Inventory Software!", fg = "black", height = 3, width = 100)
+        greeting = tk.Label(master = greetingFrame, text = "Welcome to the MASLD Inventory Software!", fg = "black")
         greeting.grid(row = 0, column = 0)
 
         buttonStyle = ttk.Style()
@@ -29,18 +30,55 @@ class StartPage(tk.Frame):
             background=[('pressed', '!disabled', 'black'), ('active', 'white')]
             )
 
+        # Declare button Labelframe
+        buttonFrame = tk.LabelFrame(master = self, text = "Pages", labelanchor = 'nw')
+        # Configure button labelframe columns
+        buttonFrame.grid_columnconfigure(0, weight = 1)
+        # Populate button labelframe
         uCPUButton = ttk.Button(master = buttonFrame, text = "View Computers", style = "M.TButton", command = lambda: self.jumpToCPU())
         uSoftButton = ttk.Button(master = buttonFrame, text = "View Softwares", style = "M.TButton", command = lambda: self.jumpToSoftware())
         uOfficeButton = ttk.Button(master = buttonFrame, text = "View Office Inventory", style = "M.TButton", command = lambda: self.jumpToOffice())
         uFieldButton = ttk.Button(master = buttonFrame, text = "View Field Inventory", style = "M.TButton", command = lambda: self.jumpToField())
-        uCPUButton.grid(row = 0, column = 0)
-        uSoftButton.grid(row = 1, column = 0)
-        uOfficeButton.grid(row = 2, column = 0)
-        uFieldButton.grid(row = 3, column = 0)
+        uCPUButton.grid(row = 0, column = 0, sticky = "EW")
+        uSoftButton.grid(row = 1, column = 0, sticky = "EW")
+        uOfficeButton.grid(row = 2, column = 0, sticky = "EW")
+        uFieldButton.grid(row = 3, column = 0, sticky = "EW")
 
-        imageFrame.grid(row = 0, column = 0)
-        greetingFrame.grid(row = 1, column = 0)
-        buttonFrame.grid(row = 2, column = 0)
+        # Place master frames
+        imageFrame.grid(row = 0, column = 0, columnspan = 2)
+        greetingFrame.grid(row = 1, column = 0, columnspan = 2)
+        buttonFrame.grid(row = 2, column = 0, sticky = "NESW")
+
+        # Declare statistics frame
+        statsLFrame = tk.LabelFrame(master = self, text = "Statistics", labelanchor = 'nw')
+        # Configure statistics columns
+        statsLFrame.grid_columnconfigure(0, weight = 1)
+        statsLFrame.grid_columnconfigure(1, weight = 1)
+        # Configure statistics rows
+        for x in range(4):
+            statsLFrame.grid_rowconfigure(x, minsize = 25)
+        # Populate statistics frame
+        totalPLabel = tk.Label(master = statsLFrame, text = "Total PCs Stored:")
+        self.totalPData = tk.Label(master = statsLFrame)
+        totalSLabel = tk.Label(master = statsLFrame, text = "Total Software Types:")
+        self.totalSData = tk.Label(master = statsLFrame)
+        totalOLabel = tk.Label(master = statsLFrame, text = "Total Office Items:")
+        self.totalOData = tk.Label(master = statsLFrame)
+        totalFLabel = tk.Label(master = statsLFrame, text = "Total Field Items:")
+        self.totalFData = tk.Label(master = statsLFrame)
+        # Place statistics frame labels
+        totalPLabel.grid(row = 0, column = 0, sticky = "E")
+        self.totalPData.grid(row = 0, column = 1)
+        totalSLabel.grid(row = 1, column = 0, sticky = "E")
+        self.totalSData.grid(row = 1, column = 1)
+        totalOLabel.grid(row = 2, column = 0, sticky = "E")
+        self.totalOData.grid(row = 2, column = 1)
+        totalFLabel.grid(row = 3, column = 0, sticky = "E")
+        self.totalFData.grid(row = 3, column = 1)
+        self.updateStats()
+        # Place statistics frame
+        statsLFrame.grid(row = 2, column = 1, sticky = "NESW")
+
 
     def jumpToCPU(self):
         self.pageDict['cpuMenu'].lift()
@@ -57,3 +95,30 @@ class StartPage(tk.Frame):
     def jumpToField(self):
         self.pageDict['fieldMenu'].lift()
         self.master.master.title(' Field Inventory - InvenPro')
+
+    def updateStats(self):
+        # Set PC count
+        self.totalPData.config(text = f'{GLOBAL.pcDict["admin"]["cpuCount"]}')
+        # Set software count
+        softwareCount = 0
+        for software in GLOBAL.softDict:
+            if(software == 'admin'):
+                continue
+            softwareCount += 1
+        self.totalSData.config(text = f'{softwareCount}')
+        # Count office items
+        officeItems = 0
+        for cat in GLOBAL.officeDict:
+            # Skip admin in count
+            if(cat == "admin"):
+                continue
+            officeItems += GLOBAL.officeDict[cat]['admin']['count']
+        self.totalOData.config(text = f'{officeItems}')
+        # Count field items
+        fieldItems = 0
+        for cat in GLOBAL.fieldDict:
+            # Skip admin field
+            if(cat == "admin"):
+                continue
+            fieldItems += GLOBAL.fieldDict[cat]['admin']['count']
+        self.totalFData.config(text = f'{fieldItems}')
