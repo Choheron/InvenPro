@@ -8,6 +8,7 @@ from driverBin.LaunchPage import StartPage
 from driverBin.CPUMenu import CPUMenu
 from driverBin.SoftwareMenu import SoftwareMenu
 from driverBin.OfficeMenu import OfficeMenu
+from driverBin.FieldMenu import FieldMenu
 
 
 class InvenPro(tk.Tk):
@@ -37,13 +38,15 @@ class InvenPro(tk.Tk):
         self.pageDict['softwareMenu'] = self.softwarePage
         self.officePage = OfficeMenu(parent = self.container, root = self, pageDict = self.pageDict)
         self.pageDict['officeMenu'] = self.officePage
+        self.fieldPage = FieldMenu(parent = self.container, root = self, pageDict = self.pageDict)
+        self.pageDict['fieldMenu'] = self.fieldPage
 
         # Grid Frames into control frame
         self.cpuPage.grid(row = 0, column = 0, sticky="NESW")
         self.startPage.grid(row = 0, column = 0, sticky="NESW")
         self.softwarePage.grid(row = 0, column = 0, sticky = "NESW")
         self.officePage.grid(row = 0, column = 0, sticky = "NESW")
-
+        self.fieldPage.grid(row = 0, column = 0, sticky = "NESW")
 
         # Delcare and configure menu bar
         menuBar = MainMenuBar(self, self.container, self.pageDict)

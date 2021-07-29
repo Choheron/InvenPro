@@ -30,6 +30,7 @@ class MainMenuBar(tk.Menu):
         windowMenu.add_command(label = "PC", command = lambda: self.raisePCPage())
         windowMenu.add_command(label = "Software", command = lambda: self.raiseSoftwarePage())
         windowMenu.add_command(label = "Office", command = lambda: self.raiseOfficePage())
+        windowMenu.add_command(label = "Field", command = lambda: self.raiseFieldPage())
         windowMenu.add_separator()
         windowMenu.add_command(label = "Homepage", command = lambda: self.raiseHomepage())
         self.add_cascade(label = "Windows", menu = windowMenu)
@@ -75,3 +76,8 @@ class MainMenuBar(tk.Menu):
     def raiseOfficePage(self):
         self.pageDict['officeMenu'].lift()
         self.master.title(' Office Inventory - InvenPro')
+
+    # Bring the Field page to the front on click
+    def raiseFieldPage(self):
+        self.pageDict['fieldMenu'].lift()
+        self.master.title(' Field Inventory - InvenPro')

@@ -9,6 +9,7 @@ def loadJSON(filepath):
         tempDict = {}
         tempDict['admin'] = {}
         tempDict['admin']['created'] = (str)(datetime.now())[:-7]
+        tempDict['admin']['updated'] = (str)(datetime.now())[:-7]
         temp = open(filepath, "w")
         temp.write(json.dumps(tempDict, indent = 4))
         temp.close()
