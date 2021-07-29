@@ -92,7 +92,7 @@ class AddItem(tk.Toplevel):
             # Assign text widget if field requires a text value
             if(self.inventoryDict[self.category]['template'][field] == "--"):
                 self.dataDict[field]['var'] = None
-                self.dataDict[field]['widget'] = tk.Text(master = self.dataFrame, height = 1, width = 30)
+                self.dataDict[field]['widget'] = tk.Text(master = self.dataFrame, height = 1, width = 40)
                 # Bind enter key and tab to deselect the textbox
                 self.dataDict[field]['widget'].bind("<Return>", lambda x=None: self.ignoreInput())
                 self.dataDict[field]['widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
