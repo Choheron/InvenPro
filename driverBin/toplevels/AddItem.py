@@ -129,8 +129,9 @@ class AddItem(tk.Toplevel):
         # Check if string has letters
         elif(not(idString.isdecimal())):
             return 'ERROR - ID number must be ONLY numerical values.'
-        else:
-            return idString
+        elif((f"MASLD-{self.inventoryDict[self.category]['admin']['nickname']}-{idString}") in self.inventoryDict[self.category]):
+            return 'ERROR - ID number is already in use, please use an unused ID.'
+        return idString
         
     def checkInput(self, input):
         # Check for Null or empty string, replace with '--'
@@ -180,6 +181,7 @@ class AddItem(tk.Toplevel):
         
         # Store outDict in the inventory dict (Will save in office menu code)
         self.inventoryDict[self.category][itemID] = outDict
+        self.inventoryDict[self.category]['admin']['count'] += 1
         # Release grab and close window
         self.grab_release()
         self.destroy()
