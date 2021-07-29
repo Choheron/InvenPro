@@ -163,7 +163,7 @@ class AddItem(tk.Toplevel):
                 if('ERROR' in idOutString):
                     self.showError(message = f'The category could not be added. Error contained the following message for debug:\n{idOutString}')
                     return
-                itemID += idOutString
+                itemID += f'{idOutString}'
                 outDict[field] = itemID
             # Check if widget is a Checkbutton
             if(isinstance(self.dataDict[field]['widget'], tk.Checkbutton)):

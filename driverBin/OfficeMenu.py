@@ -5,6 +5,7 @@ from tkinter import ttk
 from .utils import settings as GLOBAL
 from .toplevels.AddCategory import AddCategory
 from .toplevels.AddItem import AddItem
+from .toplevels.EditItemDetails import EditItemDetails
 
 class OfficeMenu(tk.Frame):
     DETAILFRAMECOL = 'gray70'
@@ -97,6 +98,23 @@ class OfficeMenu(tk.Frame):
         # Clear the detail frame of all widgets if need be
         for wid in self.detailFrame.winfo_children():
             wid.destroy()
+
+    def editDetails(self):
+        # Disable edit details button
+        self.editDetailsBttn.config(state = 'disabled')
+        # Get current category and item
+        selectedCat = str((self.oCatListBox.get(self.oCatListBox.curselection())))
+        selectedCatIndex = self.oCatListBox.curselection()
+        selectedItem = str((self.oItemListBox.get(self.oItemListBox.curselection())))
+        selectedItemIndex = self.oItemListBox.curselection()
+        # Create edit details window
+        editWin = EditItemDetails(self, GLOBAL.officeDict, selectedCat, selectedItem)
+        # Await termination of the window
+        self.wait_window(editWin)
+        # Reactivate edit details button
+        self.editDetailsBttn.config(state = 'normal')
+        # Refresh list
+        self.refreshList()
 
     # ==============================
     # CATEGORY LISTBOX SELECTION AND EDITING METHODS BELOW
@@ -328,7 +346,7 @@ class OfficeMenu(tk.Frame):
         
 
         # Create and place edit details button
-        self.editDetailsBttn = ttk.Button(master = self, text = "Edit Details", style = "M.TButton", command = lambda: print("Edit Details Button Pressed"))
+        self.editDetailsBttn = ttk.Button(master = self, text = "Edit Details", style = "M.TButton", command = lambda: self.editDetails())
         self.editDetailsBttn.grid(row = 5, column = 1, sticky = "E")
         # Disable edit and delete buttons until items or categories are selected
         self.editCatBttn.config(state = 'disabled')

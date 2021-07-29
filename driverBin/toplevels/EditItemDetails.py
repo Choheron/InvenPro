@@ -2,18 +2,18 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from datetime import datetime
 
-class EditSoftDetails(tk.Toplevel):
-    softDict = None
+class EditItemDetails(tk.Toplevel):
+    itemDict = None
     # Create a dictionary to hold all of the fields and their widgets
     internalDict = None
 
-    def __init__(self, parent, softwareDict, selectedSoft, selectedPC):
+    def __init__(self, parent, inventoryDict, category, item):
         super().__init__(parent)
         self.parent = parent
-        self.softDict = softwareDict
+        self.invenDict = inventoryDict
         self.internalDict = {}
-        self.currSoft = selectedSoft
-        self.currPC = selectedPC
+        self.category = category
+        self.item = item
         self.grab_set()
         self.buildWindow()
     
@@ -36,16 +36,16 @@ class EditSoftDetails(tk.Toplevel):
                 outString = self.internalDict[field]['widget'].get('1.0', 'end-1c')
                 if((outString == "") or (outString == " ") or (outString == "\n")):
                     outString = "--"
-                # Set software dict answer to the currently contained text
-                self.softDict[self.currSoft][self.currPC][field] = outString
+                # Set inventory dict answer to the currently contained text
+                self.invenDict[self.category][self.item][field] = outString
             else:
                 # Save boolean values
                 if(self.internalDict[field]['var'].get()):
-                    self.softDict[self.currSoft][self.currPC][field] = "Y"
+                    self.invenDict[self.category][self.item][field] = "Y"
                 else:
-                    self.softDict[self.currSoft][self.currPC][field] = "N"
+                    self.invenDict[self.category][self.item][field] = "N"
         
-        self.softDict[self.currSoft][self.currPC]['LOG'] = (str)(datetime.now())[:-7]
+        self.invenDict[self.category][self.item]['LOG'] = (str)(datetime.now())[:-7]
         # Release grab and close window
         self.grab_release()
         self.destroy()
@@ -59,8 +59,8 @@ class EditSoftDetails(tk.Toplevel):
             return
         
         # Disable reset button as the reset process takes place
-        self.sResetBttn.config(state = 'disabled')
-        # Loop through all fields and reset their values to the ones currently stored in the software dict
+        self.eResetBttn.config(state = 'disabled')
+        # Loop through all fields and reset their values to the ones currently stored in the inventory dict
         for field in self.internalDict:
             # Reset based off of type of input
             if(self.internalDict[field]['type'] == 'Text'):
@@ -70,12 +70,12 @@ class EditSoftDetails(tk.Toplevel):
                 self.internalDict[field]['widget'].insert(tk.END, self.internalDict[field]['var'].get())
             else:
                 # Check or uncheck the checkbox based off of original value
-                if(self.softDict[self.currSoft][self.currPC][field] == "Y"):
+                if(self.invenDict[self.category][self.item][field] == "Y"):
                     self.internalDict[field]['widget'].select()
                 else:
                     self.internalDict[field]['widget'].deselect()
         # Enable button once function is complete
-        self.sResetBttn.config(state = 'normal')
+        self.eResetBttn.config(state = 'normal')
 
     # ==============================
     # TERMINATE METHOD
@@ -94,13 +94,16 @@ class EditSoftDetails(tk.Toplevel):
     def popInternalFrame(self, internalFrame):
         currRow = 0
         # Populate editable fields from the template in order to control input types
-        for field in self.softDict[self.currSoft]['template']:
+        for field in self.invenDict[self.category]['template']:
+            # Skip ID field and LOG field
+            if((field == "ID") or (field == "LOG")):
+                continue
             # Create an empty dict in the internal dict to control variables and widgets
             self.internalDict[field] = {}
             # Populate dict for field based off of input type
-            if(self.softDict[self.currSoft]['template'][field] == "--"):
+            if(self.invenDict[self.category]['template'][field] == "--"):
                 self.internalDict[field]['type'] = 'Text'
-                self.internalDict[field]['var'] = tk.StringVar(master = internalFrame, value = f'{self.softDict[self.currSoft][self.currPC][field]}')
+                self.internalDict[field]['var'] = tk.StringVar(master = internalFrame, value = f'{self.invenDict[self.category][self.item][field]}')
                 self.internalDict[field]['widget'] = tk.Text(master = internalFrame, height = 1, width = 30)
                 self.internalDict[field]['widget'].insert(tk.END, self.internalDict[field]['var'].get())
                 # Bind enter key and tab to deselect the textbox
@@ -108,7 +111,7 @@ class EditSoftDetails(tk.Toplevel):
                 self.internalDict[field]['widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
             else:
                 self.internalDict[field]['type'] = 'Checkbox'
-                self.internalDict[field]['var'] = tk.BooleanVar(master = internalFrame, value = (True if (self.softDict[self.currSoft][self.currPC][field] == "Y") else False))
+                self.internalDict[field]['var'] = tk.BooleanVar(master = internalFrame, value = (True if (self.invenDict[self.category][self.item][field] == "Y") else False))
                 self.internalDict[field]['widget'] = tk.Checkbutton(master = internalFrame, var = self.internalDict[field]['var'], foreground = 'green')
 
             # Declare and place label, place widgets in loop
@@ -120,8 +123,8 @@ class EditSoftDetails(tk.Toplevel):
     # BUILD WINDOW METHOD
     # ==============================
     def buildWindow(self):
-        # Edit title to reflect the purpose of the window
-        self.title(" Edit Software Details")
+        # Edit title
+        self.title(" Edit Item Details")
 
         # Create and place directions Frame, and populate it - calling the name and current selection of the software and PC
         sDirectionFrame = tk.Frame(master = self, bg = 'grey80')
@@ -136,18 +139,18 @@ class EditSoftDetails(tk.Toplevel):
         # Format information frame
         sCurrInfoFrame.grid_columnconfigure(0, minsize = 25)
         # Create informational labels, give them borders for visual improvement
-        sCurrSoftLabel = tk.Label(master = sCurrInfoFrame, text = 'Software:',  bg = 'grey70', font = ("Helvetica", "10", "italic"), borderwidth = 1, relief = 'solid')
-        sCurrPCLabel = tk.Label(master = sCurrInfoFrame, text = 'PC:',  bg = 'grey70', font = ("Helvetica", "10", "italic"), borderwidth = 1, relief = 'solid')
-        sCurrSoftInfo = tk.Label(master = sCurrInfoFrame, text = f'{self.currSoft}',  bg = 'grey70', font = ("Helvetica", "10", "bold"), borderwidth = 1, relief = 'solid')
-        sCurrPCInfo = tk.Label(master = sCurrInfoFrame, text = f'{self.currPC}',  bg = 'grey70', font = ("Helvetica", "10", "bold"), borderwidth = 1, relief = 'solid')
+        scategoryLabel = tk.Label(master = sCurrInfoFrame, text = 'Category:',  bg = 'grey70', font = ("Helvetica", "10", "italic"), borderwidth = 1, relief = 'solid')
+        sitemLabel = tk.Label(master = sCurrInfoFrame, text = 'Item:',  bg = 'grey70', font = ("Helvetica", "10", "italic"), borderwidth = 1, relief = 'solid')
+        scategoryInfo = tk.Label(master = sCurrInfoFrame, text = f'{self.category}',  bg = 'grey70', font = ("Helvetica", "10", "bold"), borderwidth = 1, relief = 'solid')
+        sitemInfo = tk.Label(master = sCurrInfoFrame, text = f'{self.item}',  bg = 'grey70', font = ("Helvetica", "10", "bold"), borderwidth = 1, relief = 'solid')
         # Place Directions labels
         sMainDirLabel.grid(row = 0, column = 0, columnspan = 2, sticky = "NESW")
         sCurrEditLabel.grid(row = 1, column = 0, sticky = "E")
         # Place informational labels
-        sCurrSoftLabel.grid(row = 1, column = 1, sticky = "NESW")
-        sCurrPCLabel.grid(row = 2, column = 1, sticky = "NESW")
-        sCurrSoftInfo.grid(row = 1, column = 2, sticky = "NESW")
-        sCurrPCInfo.grid(row = 2, column = 2, sticky = "NESW")
+        scategoryLabel.grid(row = 1, column = 1, sticky = "NESW")
+        sitemLabel.grid(row = 2, column = 1, sticky = "NESW")
+        scategoryInfo.grid(row = 1, column = 2, sticky = "NESW")
+        sitemInfo.grid(row = 2, column = 2, sticky = "NESW")
         # Place information frame
         sCurrInfoFrame.grid(row = 1, column = 1, sticky = "NESW")
         # Place Direction Frame
@@ -190,11 +193,11 @@ class EditSoftDetails(tk.Toplevel):
         sBttnFrame.grid_columnconfigure(3, weight = 1)
         # Create and place buttons in frame
         sSaveBttn = ttk.Button(master = sBttnFrame, text = "Apply", style = "M.TButton", command = lambda: self.apply())
-        self.sResetBttn = ttk.Button(master = sBttnFrame, text = "Reset", style = "M.TButton", command = lambda: self.resetVals())
+        self.eResetBttn = ttk.Button(master = sBttnFrame, text = "Reset", style = "M.TButton", command = lambda: self.resetVals())
         sCancelBttn = ttk.Button(master = sBttnFrame, text = "Cancel", style = "M.TButton", command = lambda: self.terminate())
         # Place in Grid (skipping column 1 in order to space out buttons)
         sSaveBttn.grid(row = 0, column = 0, padx = .5, pady = .5, sticky = "W")
-        self.sResetBttn.grid(row = 0, column = 2, padx = .5, pady = .5, sticky = "EW")
+        self.eResetBttn.grid(row = 0, column = 2, padx = .5, pady = .5, sticky = "EW")
         sCancelBttn.grid(row = 0, column = 3, padx = .5, pady = .5, sticky = "EW")
         # Place button frame
         sBttnFrame.grid(row = 2, column = 0 , sticky = "NESW")
