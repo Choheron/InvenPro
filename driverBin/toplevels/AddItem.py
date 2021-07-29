@@ -1,7 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import Checkbutton, messagebox, ttk
 
 class AddItem(tk.Toplevel):
+    dataDict = {}
+
     def __init__(self, master, inventoryDict, currCategory):
         super().__init__(master)
         self.parent = master
@@ -17,40 +19,118 @@ class AddItem(tk.Toplevel):
         # Break the input and ignore input as a whole
         return 'break'
 
+    # ==============================
+    # ID NUM HELPER METHODS BELOW
+    # ==============================
     def nextAvailNum(self):
-        pass
+        # Get current item count
+        currCount = self.inventoryDict[self.category]['admin']['count']
+        # Add one to item count for proposed new item ID
+        nextOpenID = (currCount + 1)
+        if(nextOpenID < 10):
+            out = f"00{nextOpenID}"
+        elif(nextOpenID < 100):
+            out = f"0{nextOpenID}"
+        else:
+            out = f"{nextOpenID}"
+        # Return formatted ID
+        return out
+        
+    def setNextNumText(self):
+        # Get next available number in correct format
+        nextNumString = self.nextAvailNum()
+        # Clear the text widget
+        self.dataDict["ID"]['widget'].delete('1.0', tk.END)
+        # Insert next num
+        self.dataDict["ID"]['widget'].insert(tk.END, nextNumString)
 
+    # ==============================
+    # DATA FRAME METHOD BELOW
+    # ==============================
     def popDataFrame(self):
-        # Configure columns of data frame
-        self.dataFrame.grid_columnconfigure(0, weight = 1)
-        self.dataFrame.grid_columnconfigure(1, weight = 1)
-
         # Declare a data frame dict to hold all widgets
         self.dataDict = {}
         # Declare local row counter
         dRow = 0
         # Do special case for ID Num
         self.dataDict["ID"] = {}
-        self.dataDict["ID"]['label'] = tk.Label(master = self.dataFrame, text = "Item ID:").grid(row = dRow, column = 0, sticky = "E")
-        self.dataDict["ID"]['var'] = tk.StringVar(master = self.dataFrame, value = "")
+        self.dataDict["ID"]['label'] = tk.Label(master = self.dataFrame, text = f"{self.category.upper()} ID:", font = 'Times 11').grid(row = dRow, column = 0, sticky = "E")
+        self.dataDict["ID"]['var'] = None
         # Declare and populate Frame to hold ID Textbox and ID Button
         self.idFrame = tk.Frame(master = self.dataFrame)
+        # Format ID Frame columns
+        self.idFrame.grid_columnconfigure(0, weight = 1)
+        self.idFrame.grid_columnconfigure(1, weight = 1)
+        self.idFrame.grid_columnconfigure(2, weight = 2)
         self.dataDict["ID"]['widget'] = tk.Text(master = self.idFrame, height = 1, width = 3)
         self.dataDict["ID"]['widget'].insert(tk.END, "XXX")
         # Place a label before the textbox that uses nickname
-        tk.Label(master = self.idFrame, text = f"MASLD-{self.inventoryDict[self.category]['admin']['nickname']}-").grid(row = 0, column = 0, sticky = "E")
+        tk.Label(master = self.idFrame, text = f"MASLD-{self.inventoryDict[self.category]['admin']['nickname']}-", font = ("Helvetica", "10", "italic")).grid(row = 0, column = 0, sticky = "E")
         # Place textbox in frame
         self.dataDict["ID"]['widget'].grid(row = 0, column = 1, sticky = "W")
         # Create and place next open id button
-        ttk.Button(master = self.idFrame, text = "Next Open ID", style = "M.TButton", command = lambda: self.nextAvailNum()).grid(row = 0, column = 2, sticky = "EW")
+        ttk.Button(master = self.idFrame, text = "Next Open ID", style = "M.TButton", command = lambda: self.setNextNumText()).grid(row = 0, column = 2, sticky = "EW")
         # Bind enter key and tab to deselect the textbox
         self.dataDict["ID"]['widget'].bind("<Return>", lambda x=None: self.ignoreInput())
         self.dataDict["ID"]['widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
         # Place ID Frame
-        self.idFrame.grid(row = dRow, column = 1, sticky = "EW")
+        self.idFrame.grid(row = dRow, column = 1, sticky = "NESW")
+        # Manually Increment dRow (NOTE: Look into a better way of doing this)
+        dRow += 1
 
         # Loop Through template and populate data frame
+        for field in self.inventoryDict[self.category]['template']:
+            # Skip ID and LOG
+            if((field == "ID") or (field == "LOG")):
+                continue
+            # Create dictionary for field
+            self.dataDict[field] = {}
+            self.dataDict[field]['label'] = tk.Label(master = self.dataFrame, text = f'{field}:', font = 'Times 11')
+            # Place label
+            self.dataDict[field]['label'].grid(row = dRow, column = 0, sticky = "E")
+            # Assign text widget if field requires a text value
+            if(self.inventoryDict[self.category]['template'][field] == "--"):
+                self.dataDict[field]['var'] = None
+                self.dataDict[field]['widget'] = tk.Text(master = self.dataFrame, height = 1, width = 30)
+                # Bind enter key and tab to deselect the textbox
+                self.dataDict[field]['widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+                self.dataDict[field]['widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
+            # Assign checkbutton widget and boolean based off of value
+            else:
+                self.dataDict[field]['var'] = tk.BooleanVar(master = self.dataFrame, value = False)
+                self.dataDict[field]['widget'] = tk.Checkbutton(master = self.dataFrame, var = self.dataDict[field]['var'], fg = 'green')
+                if(self.inventoryDict[self.category]['template'][field] == "Y"):
+                    self.dataDict[field]['var'].set(True)
+            # Place widget
+            self.dataDict[field]['widget'].grid(row = dRow, column = 1)
+            # Increment dRow
+            dRow += 1
 
+    # ==============================
+    # RESET METHOD BELOW
+    # ==============================
+    def resetValues(self):
+        for field in self.dataDict:
+            # Skip LOG field
+            if(field == "LOG"):
+                continue
+            if(isinstance(self.dataDict[field]['widget'], tk.Checkbutton)):
+                # Special case for active
+                if(field == 'ACTIVE'):
+                    self.dataDict[field]['var'].set(True)
+                    continue
+                self.dataDict[field]['var'].set(False)
+            else:
+                # Special case for ID
+                if(field == 'ID'):
+                    self.dataDict[field]['widget'].delete('1.0', tk.END)
+                    self.dataDict[field]['widget'].insert(tk.END, 'XXX')
+                    continue
+                self.dataDict[field]['widget'].delete('1.0', tk.END)
+    
+    # ==============================
+    # TERMINATE METHOD BELOW
+    # ==============================
     def terminate(self):
         response = messagebox.askyesno(" Cancel Item Addition?", "If you cancel now, the item will NOT be added to the system.\nAre you sure you would like to cancel?")
         if(response):
@@ -59,6 +139,9 @@ class AddItem(tk.Toplevel):
         else:
             return
 
+    # ==============================
+    # BUILD WINDOW METHOD - Called at Init
+    # ==============================
     def buildWindow(self):
         self.title(f' Add New {self.category}')
 
@@ -84,6 +167,8 @@ class AddItem(tk.Toplevel):
         # Set weights of grid in frame
         self.dataFrame.grid_columnconfigure(0, weight = 1)
         self.dataFrame.grid_columnconfigure(1, weight = 1)
+        # Populate the data frame
+        self.popDataFrame()
         # Attach frame to internals of center canvas
         self.windowID = self.dataCanvas.create_window((0, 0), window = self.dataFrame, anchor = 'n')
 
@@ -99,15 +184,14 @@ class AddItem(tk.Toplevel):
         mainCanvasFrame.grid(row = 1, column = 0, sticky = "NESW")
         # Declare widget dictionary to store data
         self.widgetDict = {}
-        # Populate the data frame
-        self.popDataFrame()
+        
 
         # Create master button frame
         buttonFrame = tk.Frame(master = self)
         # Create and place buttons
         self.saveBttn = ttk.Button(master = buttonFrame, text = "Save New Item", style = "M.TButton", command = lambda: print("Save Item Button Clicked"))
-        self.resetBttn = ttk.Button(master = buttonFrame, text = "Reset", style = "M.TButton", command = lambda: print("Reset Button Clicked"))
-        self.cancelBttn = ttk.Button(master = buttonFrame, text = "Cancel", style = "M.TButton", command = lambda: print("Cancel Button Clicked"))
+        self.resetBttn = ttk.Button(master = buttonFrame, text = "Clear All", style = "M.TButton", command = lambda: self.resetValues())
+        self.cancelBttn = ttk.Button(master = buttonFrame, text = "Cancel", style = "M.TButton", command = lambda: self.terminate())
         self.saveBttn.grid(row = 0, column = 0, sticky = "E")
         self.resetBttn.grid(row = 0, column = 1, sticky = "E")
         self.cancelBttn.grid(row = 0, column = 2, sticky = "E")
