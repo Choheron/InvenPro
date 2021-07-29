@@ -60,7 +60,7 @@ class MainMenuBar(tk.Menu):
     # Bring the homepage to the front on click
     def raiseHomepage(self):
         self.pageDict['home'].lift()
-        self.master.title(' HomePage - InvenPro')
+        self.master.title(' HomePage - InvenPro V0.1A')
 
     # Bring the PC page to the front on click
     def raisePCPage(self):

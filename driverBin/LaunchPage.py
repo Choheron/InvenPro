@@ -51,3 +51,7 @@ class StartPage(tk.Frame):
     def jumpToOffice(self):
         self.pageDict['officeMenu'].lift()
         self.master.master.title(' Office Inventory - InvenPro')
+
+    def jumpToField(self):
+        self.pageDict['fieldMenu'].lift()
+        self.master.master.title(' Field Inventory - InvenPro')
