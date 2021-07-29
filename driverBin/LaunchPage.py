@@ -31,10 +31,12 @@ class StartPage(tk.Frame):
 
         uCPUButton = ttk.Button(master = buttonFrame, text = "View Computers", style = "M.TButton", command = lambda: self.jumpToCPU())
         uSoftButton = ttk.Button(master = buttonFrame, text = "View Softwares", style = "M.TButton", command = lambda: self.jumpToSoftware())
-        uPerifButton = ttk.Button(master = buttonFrame, text = "View Office Inventory", style = "M.TButton", command = lambda: self.jumpToOffice())
+        uOfficeButton = ttk.Button(master = buttonFrame, text = "View Office Inventory", style = "M.TButton", command = lambda: self.jumpToOffice())
+        uFieldButton = ttk.Button(master = buttonFrame, text = "View Field Inventory", style = "M.TButton", command = lambda: self.jumpToField())
         uCPUButton.grid(row = 0, column = 0)
         uSoftButton.grid(row = 1, column = 0)
-        uPerifButton.grid(row = 2, column = 0)
+        uOfficeButton.grid(row = 2, column = 0)
+        uFieldButton.grid(row = 3, column = 0)
 
         imageFrame.grid(row = 0, column = 0)
         greetingFrame.grid(row = 1, column = 0)
