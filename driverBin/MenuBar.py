@@ -37,7 +37,7 @@ class MainMenuBar(tk.Menu):
 
         # Declare help menu option and add commands
         helpMenu = tk.Menu(self, tearoff = 0)
-        helpMenu.add_command(label = "Help Index...", command = lambda: print("HELP INDEX NOT IMPLEMENTED"))
+        helpMenu.add_command(label = "Help Index...", command = lambda: self.helpIndex())
         # Declare icon for about page
         self.aboutIcon = tk.PhotoImage(file = (os.getcwd() + '/driverBin/images/icons/info-16px.png'))
         helpMenu.add_command(label = "About", image = self.aboutIcon, compound = 'left',command = lambda: self.aboutPage())
@@ -82,3 +82,8 @@ class MainMenuBar(tk.Menu):
     def raiseFieldPage(self):
         self.pageDict['fieldMenu'].lift()
         self.master.title(' Field Inventory - InvenPro')
+
+    # Activate and run a help window (TODO: Implement)
+    def helpIndex(self):
+        print("HELP INDEX NOT IMPLEMENTED")
+        return
