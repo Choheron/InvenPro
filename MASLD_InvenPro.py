@@ -56,6 +56,16 @@ class InvenPro(tk.Tk):
         self.protocol("WM_DELETE_WINDOW", lambda: self.terminate())
         # Bind universal help button
         self.bind('<F1>', lambda x=None: menuBar.helpIndex())
+        # Bind "Home" key to raise homepage
+        self.bind('<Home>', lambda x=None: menuBar.raiseHomepage())
+        # Bind "Shift + F1" to raise PC page
+        self.bind('<Shift-F1>', lambda x=None: menuBar.raisePCPage())
+        # Bind "Shift + F2" to raise Software page
+        self.bind('<Shift-F2>', lambda x=None: menuBar.raiseSoftwarePage())
+        # Bind "Shift + F3" to raise Office page
+        self.bind('<Shift-F3>', lambda x=None: menuBar.raiseOfficePage())
+        # Bind "Shift + F4" to raise PC page
+        self.bind('<Shift-F4>', lambda x=None: menuBar.raiseFieldPage())
 
         # Disable resizing
         self.resizable(0, 0)      

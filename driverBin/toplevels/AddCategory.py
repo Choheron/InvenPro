@@ -330,7 +330,7 @@ class AddCategory(tk.Toplevel):
         self.addTextBttn.grid(row = 0, column = 0, padx = 1, pady = .5, sticky = "E")
         self.addTFBttn.grid(row = 0, column = 1, padx = 1, pady = .5, sticky = "E")
         # Place internal second button frame
-        bttnFrame2.grid(row = 0, column = 2, sticky = "NESW")
+        bttnFrame2.grid(row = 0, column = 2, sticky = "E")
         # Place master button frame
         bttnFrame.grid(row = 2, column = 0, sticky = "NESW")
 
