@@ -54,9 +54,9 @@ class InvenPro(tk.Tk):
 
         # Intercept close button and rebind it to a confirmation
         self.protocol("WM_DELETE_WINDOW", lambda: self.terminate())
-        # Bind universal keypresses
-        self.bind('<F1>', lambda x=None: menuBar.helpIndex())
-        
+        # Bind universal help button
+        self.bind('<F1>', lambda x=None: menuBar.helpIndex())        
+
     # ==============================
     #    TERMINATION METHODS BELOW
     # ==============================
