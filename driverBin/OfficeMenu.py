@@ -84,6 +84,8 @@ class OfficeMenu(tk.Frame):
         GLOBAL.saveOfficedict()
         # Refresh lists
         self.refreshList()
+        # Reactivate add Item button
+        self.addItemBttn.config(state = 'normal')
 
     def delItem(self):
         pass
@@ -298,7 +300,7 @@ class OfficeMenu(tk.Frame):
         self.oDetailTitle.grid(row = 3, column = 0, columnspan = 2, sticky = "W")
 
         # Create details master canvas frame
-        oDetailMaster = tk.Frame(master = self)
+        oDetailMaster = tk.Frame(master = self, borderwidth = 2, bg = self.DETAILFRAMECOL, relief = 'sunken')
         oDetailMaster.grid_columnconfigure(0, weight = 1)
         # Create detail canvas, required for scrollbar and procedural population to function as needed.
         self.detailCanvas = tk.Canvas(master = oDetailMaster, highlightthickness = 0, borderwidth = 0, bg = self.DETAILFRAMECOL)
