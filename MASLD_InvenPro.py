@@ -18,9 +18,6 @@ class InvenPro(tk.Tk):
         # Decleare self as root Tk process
         tk.Tk.__init__(self, className = ' MASLD-InvenPro')
 
-        # Bind universal keypresses
-        self.bind('<F1>', lambda x=None: menuBar.helpIndex())
-
         # Declare the master control frame for pages
         self.container = tk.Frame(self) 
         self.container.pack(side = "top", fill = "both", expand = True)
@@ -57,6 +54,8 @@ class InvenPro(tk.Tk):
 
         # Intercept close button and rebind it to a confirmation
         self.protocol("WM_DELETE_WINDOW", lambda: self.terminate())
+        # Bind universal keypresses
+        self.bind('<F1>', lambda x=None: menuBar.helpIndex())
         
 
     # ==============================
