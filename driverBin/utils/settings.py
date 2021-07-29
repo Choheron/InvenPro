@@ -23,6 +23,11 @@ def init(root):
     officeJsonFilepath = (os.getcwd() + '/driverBin/data/OfficeData.json')
     officeDict = JSONu.loadJSON(officeJsonFilepath)
 
+    global fieldDict
+    global fieldJsonFilepath
+    fieldJsonFilepath = (os.getcwd() + '/driverBin/data/fieldInvData.json')
+    fieldDict = JSONu.loadJSON(fieldJsonFilepath)
+
 def savePCdict():
     global pcDict
     JSONu.dumpJSON(pcDict, pcJsonFilepath)
