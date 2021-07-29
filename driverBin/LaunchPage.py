@@ -10,12 +10,13 @@ class StartPage(tk.Frame):
         super().__init__(parent)
         self.parent = parent
         self.pageDict = pageDict
+        # TODO: Create an Icon for InvenPro
         root.title(' HomePage - InvenPro V0.1A')
 
         imageFrame = tk.Frame(master = self)
         greetingFrame = tk.Frame(master = self)
         
-
+        # TODO: Replace with newer, nicer image
         image = ImageTk.PhotoImage(file = (os.getcwd() + '/driverBin/images/MASLD Logo/LogoCroppedTransparent.png'))
         startImage = tk.Label(master = imageFrame, image = image)
         startImage.image = image
