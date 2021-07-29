@@ -15,6 +15,7 @@ class EditSoftDetails(tk.Toplevel):
         self.currSoft = selectedSoft
         self.currPC = selectedPC
         self.grab_set()
+        self.focus_set()
         self.buildWindow()
     
     # ==============================

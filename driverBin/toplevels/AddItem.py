@@ -11,6 +11,7 @@ class AddItem(tk.Toplevel):
         self.inventoryDict = inventoryDict
         self.category = currCategory
         self.grab_set()
+        self.focus_set()
         self.buildWindow()
 
     # ==============================

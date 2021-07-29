@@ -13,7 +13,7 @@ class AddCPUMenu(tk.Toplevel):
     def __init__(self, CPUMenu):
         super().__init__(CPUMenu) # Call super constructor
         self.grab_set()
-        self.focus()
+        self.focus_set()
         self.buildAddWindow()
     
     # ==============================

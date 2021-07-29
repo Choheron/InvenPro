@@ -11,6 +11,7 @@ class AddCategory(tk.Toplevel):
         self.inventoryDict = inventoryDict
         self.nameVar = nameVar
         self.grab_set()
+        self.focus_set()
         self.buildWindow()
 
     # ==============================

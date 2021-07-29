@@ -10,7 +10,7 @@ class EditCPUMenu(tk.Toplevel):
     def __init__(self, CPUMenu, currentCPU):
         super().__init__(CPUMenu)
         self.grab_set()
-        self.focus()
+        self.focus_set()
         self.launchEditCPUDriver(currentCPU)
 
     # ==============================

@@ -11,6 +11,7 @@ class AddSoftware(tk.Toplevel):
         self.softDict = softwareDict
         self.newName = newSoftName
         self.grab_set()
+        self.focus_set()
         self.buildWindow()
 
     # ==============================

@@ -15,6 +15,7 @@ class EditItemDetails(tk.Toplevel):
         self.category = category
         self.item = item
         self.grab_set()
+        self.focus_set()
         self.buildWindow()
     
     # ==============================
