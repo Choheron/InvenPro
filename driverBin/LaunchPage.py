@@ -22,7 +22,7 @@ class StartPage(tk.Frame):
         startImage.image = image
         startImage.grid(row = 0, column = 0)
 
-        greeting = tk.Label(master = greetingFrame, text = "Welcome to the MASLD Inventory Software!", fg = "black")
+        greeting = tk.Label(master = greetingFrame, text = "Welcome to InvenPro!", fg = "black")
         greeting.grid(row = 0, column = 0)
 
         buttonStyle = ttk.Style()
