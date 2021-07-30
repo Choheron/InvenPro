@@ -23,17 +23,6 @@ class CPUMenu(tk.Frame):
         self.launchCPUDriver(root)
 
     # ==============================
-    # EXCEL TO JSON UPDATE METHODS BELOW
-    # ==============================
-
-    # TODO: STOP READING FROM EXCEL AND START STORING NATIVELY IN SERIALIZED FILES
-    def excel2JsonCPU(self):
-        ExcelReader.readCPUlist()
-        CPUListFile = open((os.getcwd() + '/driverBin/data/CPUData.json'), "r")
-        GLOBAL.pcDict = json.load(CPUListFile)
-        CPUListFile.close()
-
-    # ==============================
     # SHOW DETAIL METHODS BELOW
     # ============================== 
 
@@ -175,7 +164,6 @@ class CPUMenu(tk.Frame):
     # DRIVER METHODS BELOW
     # ============================== 
     def launchCPUDriver(self, root):
-        # root.wm_state('iconic') - COMMENTED OUT IN MIGRATION TO FRAME
 
         # Below: ALL GUI Elements related to the List of Computers and the labels above it.
         ctopLabel = tk.Label(master = self, text = "A list of the current computers can be found below:")
