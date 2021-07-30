@@ -2,7 +2,6 @@ from datetime import datetime
 import os
 import tkinter as tk
 import tkinter.messagebox
-from driverBin.utils import jsonUtils
 from driverBin.utils import settings as GLOBAL
 from driverBin.MenuBar import MainMenuBar
 from driverBin.LaunchPage import StartPage
