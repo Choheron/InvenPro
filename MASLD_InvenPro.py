@@ -55,7 +55,7 @@ class InvenPro(tk.Tk):
         self.config(menu = menuBar)
 
         # Intercept close button and rebind it to a confirmation
-        self.protocol("WM_DELETE_WINDOW", lambda: self.terminate())
+        self.protocol("WM_DELETE_WINDOW", lambda x=None: self.terminate())
         # Bind universal help button
         self.bind('<F1>', lambda x=None: menuBar.helpIndex())
         # Bind "Home" key to raise homepage
