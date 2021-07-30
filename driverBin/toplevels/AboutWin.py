@@ -59,7 +59,7 @@ class AboutPopup(tk.Toplevel):
 
         # Declare Version labels
         aVersionLabel = tk.Label(master = self, text = f'Current InvenPro Version:', bg = self.bgCol)
-        aVersionNumLabel = tk.Label(master = self, text = f'{GLOBAL.version}', font = 'bold', bg = self.bgCol)
+        aVersionNumLabel = tk.Label(master = self, text = f'{GLOBAL.version}', font = ('Helveticabold', 15, 'italic'), bg = self.bgCol)
         # Place Version labels
         aVersionLabel.grid(row = 3, column = 0)
         aVersionNumLabel.grid(row = 3, column = 1)
