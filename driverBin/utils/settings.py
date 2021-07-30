@@ -47,3 +47,7 @@ def saveFielddict():
     global fieldDict
     JSONu.dumpJSON(fieldDict, fieldJsonFilepath)
     fieldDict = JSONu.loadJSON(fieldJsonFilepath)
+
+def setIconInvenPro(window):
+    # Set Icon for Window
+    window.iconbitmap(os.getcwd() + '/driverBin/images/icons/DesktopIcon 32x32.ico')

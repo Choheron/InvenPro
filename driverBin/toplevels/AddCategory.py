@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.messagebox
 from tkinter import ttk
+from ..utils.settings import setIconInvenPro as setIcon
+
 # ==============================
 # Inital code duplicated from AddSoftware.py window
 # ==============================
@@ -12,6 +14,8 @@ class AddCategory(tk.Toplevel):
         self.nameVar = nameVar
         self.grab_set()
         self.focus_set()
+        # Set Icon for Window
+        setIcon(self)
         self.buildWindow()
 
     # ==============================

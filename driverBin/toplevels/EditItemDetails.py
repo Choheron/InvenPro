@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 from datetime import datetime
+from ..utils.settings import setIconInvenPro as setIcon
 
 class EditItemDetails(tk.Toplevel):
     itemDict = None
@@ -16,6 +17,8 @@ class EditItemDetails(tk.Toplevel):
         self.item = item
         self.grab_set()
         self.focus_set()
+        # Set Icon for Window
+        setIcon(self)
         self.buildWindow()
     
     # ==============================

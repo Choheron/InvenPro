@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.messagebox
 from tkinter import ttk
+from ..utils.settings import setIconInvenPro as setIcon
 
 class AddSoftware(tk.Toplevel):
     softDict = None
@@ -12,6 +13,8 @@ class AddSoftware(tk.Toplevel):
         self.newName = newSoftName
         self.grab_set()
         self.focus_set()
+        # Set Icon for Window
+        setIcon(self)
         self.buildWindow()
 
     # ==============================

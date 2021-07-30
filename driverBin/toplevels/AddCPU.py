@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from .InputDialogue import InputDioBox
 from ..utils import settings as GLOBAL
+from ..utils.settings import setIconInvenPro as setIcon
 
 class AddCPUMenu(tk.Toplevel):
     TEXTWIDTH = 40
@@ -14,6 +15,8 @@ class AddCPUMenu(tk.Toplevel):
         super().__init__(CPUMenu) # Call super constructor
         self.grab_set()
         self.focus_set()
+        # Set Icon for Window
+        setIcon(self)
         self.buildAddWindow()
     
     # ==============================

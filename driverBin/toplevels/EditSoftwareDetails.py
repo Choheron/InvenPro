@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 from datetime import datetime
+from ..utils.settings import setIconInvenPro as setIcon
 
 class EditSoftDetails(tk.Toplevel):
     softDict = None
@@ -16,6 +17,8 @@ class EditSoftDetails(tk.Toplevel):
         self.currPC = selectedPC
         self.grab_set()
         self.focus_set()
+        # Set Icon for Window
+        setIcon(self)
         self.buildWindow()
     
     # ==============================

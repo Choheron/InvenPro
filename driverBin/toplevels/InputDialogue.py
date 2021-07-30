@@ -1,11 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
-
+from ..utils.settings import setIconInvenPro as setIcon
 
 class InputDioBox(tk.Toplevel):
     def __init__(self, master, title, message, textvar):
         super().__init__(master)
         self.grab_set()
+        # Set Icon for Window
+        setIcon(self)
 
         # Set Title and Size
         self.title(title)

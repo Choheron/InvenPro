@@ -4,6 +4,7 @@ from datetime import datetime
 import os
 import tkinter as tk
 from tkinter import ttk
+from ..utils.settings import setIconInvenPro as setIcon
 
 class EditCPUMenu(tk.Toplevel):
 
@@ -11,6 +12,8 @@ class EditCPUMenu(tk.Toplevel):
         super().__init__(CPUMenu)
         self.grab_set()
         self.focus_set()
+        # Set Icon for Window
+        setIcon(self)
         self.launchEditCPUDriver(currentCPU)
 
     # ==============================
