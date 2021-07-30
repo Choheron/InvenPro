@@ -157,7 +157,7 @@ class CPUMenu(tk.Frame):
     # ==============================
     def jumpToSoftware(self):
         self.pageDict['softwareMenu'].lift()
-        self.master.master.title(' Software List - InvenPro')
+        self.master.master.title(f' Software List - InvenPro {GLOBAL.version}')
 
     # ==============================
     # DRIVER METHODS BELOW

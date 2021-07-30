@@ -2,6 +2,7 @@ import sys
 import tkinter as tk
 import tkinter.messagebox
 from .toplevels.AboutWin import AboutPopup
+from .utils import settings as GLOBAL
 import os
 
 class MainMenuBar(tk.Menu):
@@ -73,27 +74,27 @@ class MainMenuBar(tk.Menu):
     def raiseHomepage(self):
         self.pageDict['home'].updateStats()
         self.pageDict['home'].lift()
-        self.master.title(' HomePage - InvenPro v0.1-alpha')
+        self.master.title(f' HomePage - InvenPro {GLOBAL.version}')
 
     # Bring the PC page to the front on click
     def raisePCPage(self):
         self.pageDict['cpuMenu'].lift()
-        self.master.title(' CPU List - InvenPro')
+        self.master.title(f' CPU List - InvenPro {GLOBAL.version}')
 
     # Bring the Software page to the front on click
     def raiseSoftwarePage(self):
         self.pageDict['softwareMenu'].lift()
-        self.master.title(' Software List - InvenPro')
+        self.master.title(f' Software List - InvenPro {GLOBAL.version}')
 
     # Bring the Office page to the front on click
     def raiseOfficePage(self):
         self.pageDict['officeMenu'].lift()
-        self.master.title(' Office Inventory - InvenPro')
+        self.master.title(f' Office Inventory - InvenPro {GLOBAL.version}')
 
     # Bring the Field page to the front on click
     def raiseFieldPage(self):
         self.pageDict['fieldMenu'].lift()
-        self.master.title(' Field Inventory - InvenPro')
+        self.master.title(f' Field Inventory - InvenPro {GLOBAL.version}')
 
     # Activate and run a help window (TODO: Implement)
     def helpIndex(self):

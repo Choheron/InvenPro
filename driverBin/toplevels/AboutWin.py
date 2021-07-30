@@ -1,6 +1,7 @@
 import tkinter as tk
 import webbrowser
 import os
+from ..utils import settings as GLOBAL
 
 # TODO: Make much more beautiful and make to include dynamic version information and the like.
 
@@ -58,7 +59,7 @@ class AboutPopup(tk.Toplevel):
 
         # Declare Version labels
         aVersionLabel = tk.Label(master = self, text = f'Current InvenPro Version:', bg = self.bgCol)
-        aVersionNumLabel = tk.Label(master = self, text = f'ALPHA', font = 'bold', bg = self.bgCol)
+        aVersionNumLabel = tk.Label(master = self, text = f'{GLOBAL.version}', font = 'bold', bg = self.bgCol)
         # Place Version labels
         aVersionLabel.grid(row = 3, column = 0)
         aVersionNumLabel.grid(row = 3, column = 1)

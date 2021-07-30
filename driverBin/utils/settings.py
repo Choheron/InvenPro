@@ -4,8 +4,12 @@ from . import jsonUtils as JSONu
 pcDict = {}
 softDict = {}
 officeDict = {}
+version = ""
 
 def init(root):
+    # Set Version number
+    global version
+    version = "v0.1-alpha"
     # Declare the PC Dictionary and its filepath to the Json
     global pcDict
     global pcJsonFilepath

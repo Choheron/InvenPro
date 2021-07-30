@@ -11,7 +11,7 @@ class StartPage(tk.Frame):
         self.parent = parent
         self.pageDict = pageDict
         # TODO: Create an Icon for InvenPro
-        root.title(' HomePage - InvenPro v0.1-alpha')
+        root.title(f' HomePage - InvenPro {GLOBAL.version}')
 
         imageFrame = tk.Frame(master = self)
         greetingFrame = tk.Frame(master = self)
@@ -83,19 +83,19 @@ class StartPage(tk.Frame):
 
     def jumpToCPU(self):
         self.pageDict['cpuMenu'].lift()
-        self.master.master.title(' CPU List - InvenPro')
+        self.master.master.title(f' CPU List - InvenPro {GLOBAL.version}')
 
     def jumpToSoftware(self):
         self.pageDict['softwareMenu'].lift()
-        self.master.master.title(' Software List - InvenPro')
+        self.master.master.title(f' Software List - InvenPro {GLOBAL.version}')
 
     def jumpToOffice(self):
         self.pageDict['officeMenu'].lift()
-        self.master.master.title(' Office Inventory - InvenPro')
+        self.master.master.title(f' Office Inventory - InvenPro {GLOBAL.version}')
 
     def jumpToField(self):
         self.pageDict['fieldMenu'].lift()
-        self.master.master.title(' Field Inventory - InvenPro')
+        self.master.master.title(f' Field Inventory - InvenPro {GLOBAL.version}')
 
     def updateStats(self):
         # Set PC count
