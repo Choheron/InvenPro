@@ -31,7 +31,7 @@ class MainMenuBar(tk.Menu):
         # Add "New" submenu
         fileMenu.add_cascade(label = "New...", menu = newMenu)
         fileMenu.add_separator()
-        fileMenu.add_command(label = "EXIT", command = lambda: self.systemTerminate())
+        fileMenu.add_command(label = "EXIT", command = lambda x=None: self.systemTerminate())
         self.add_cascade(label = "File", menu = fileMenu)
 
         # Declare window menu option and add commands
