@@ -46,7 +46,7 @@ class AddCategory(tk.Toplevel):
         attributeNum = self.widgetDict['count']
         self.widgetDict[f'Attr{attributeNum}'] = {}
         self.widgetDict[f'Attr{attributeNum}']['Label'] = tk.Label(master = self.attrFrame, text = f"Text Attribute:")
-        self.widgetDict[f'Attr{attributeNum}']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict[f'Attr{attributeNum}']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
         self.widgetDict[f'Attr{attributeNum}']['Widget'].insert(tk.END, f"Attribute Name")
         self.widgetDict[f'Attr{attributeNum}']['Type'] = 'Text'
         self.widgetDict[f'Attr{attributeNum}']['Index'] = self.widgetDict['count']
@@ -57,7 +57,7 @@ class AddCategory(tk.Toplevel):
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'] = ttk.Button(master = self.attrFrame, text = "X", style = "M.TButton", command = lambda: self.deleteAttribute(self.widgetDict[f'Attr{attributeNum}']['Index']))
         self.widgetDict[f'Attr{attributeNum}']['DelBttn'].grid(row = self.widgetDict[f'Attr{attributeNum}']['Index'], column = 3)
 
-        # Bind enter key to deselect the textbox
+        # Bind enter and tab key to be ignored the textbox
         self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
         self.widgetDict[f'Attr{attributeNum}']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
 
@@ -71,7 +71,7 @@ class AddCategory(tk.Toplevel):
         attributeNum = self.widgetDict['count']
         self.widgetDict[f'Attr{attributeNum}'] = {}
         self.widgetDict[f'Attr{attributeNum}']['Label'] = tk.Label(master = self.attrFrame, text = f"True/False Attribute:")
-        self.widgetDict[f'Attr{attributeNum}']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict[f'Attr{attributeNum}']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
         self.widgetDict[f'Attr{attributeNum}']['Widget'].insert(tk.END, f"Attribute Name")
         self.widgetDict[f'Attr{attributeNum}']['Type'] = 'Checkbox'
         self.widgetDict[f'Attr{attributeNum}']['Index'] = self.widgetDict['count']
@@ -264,11 +264,11 @@ class AddCategory(tk.Toplevel):
         # Declare category Data and configure widgetDict ---- DEFAULT ATTRIBUTE 1
         self.widgetDict['Name'] = {}
         self.widgetDict['Name']['Label'] = tk.Label(master = self.attrFrame, text = "Category Name:")
-        self.widgetDict['Name']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['Name']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
         self.widgetDict['Name']['Widget'].insert(tk.END, "Category Name")
         self.widgetDict['Name']['Type'] = 'Text'
         self.widgetDict['Name']['Index'] = self.widgetDict['count']
-        # Bind enter key to deselect the textbox
+        # Bind enter and tab key to be ignored the textbox
         self.widgetDict['Name']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
         self.widgetDict['Name']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
         # Increment widget count
@@ -295,7 +295,7 @@ class AddCategory(tk.Toplevel):
         self.widgetDict['Nickname']['Widget'][0].grid(row = 0, column = 0, sticky = "E")
         self.widgetDict['Nickname']['Widget'][1].grid(row = 0, column = 1, sticky = "NESW")
         self.widgetDict['Nickname']['Widget'][2].grid(row = 0, column = 2, sticky = "W")
-        # Bind enter key to deselect the textbox
+        # Bind enter and tab key to be ignored the textbox
         self.widgetDict[f'Nickname']['Widget'][1].bind("<Return>", lambda x=None: self.ignoreInput())
         self.widgetDict[f'Nickname']['Widget'][1].bind("<Tab>", lambda x=None: self.ignoreInput())
         # Increment widget count
@@ -307,56 +307,85 @@ class AddCategory(tk.Toplevel):
         # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 3
         self.widgetDict['Location'] = {}
         self.widgetDict['Location']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
-        self.widgetDict['Location']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['Location']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
         self.widgetDict['Location']['Widget'].insert(tk.END, "Location")
         self.widgetDict['Location']['Widget'].config(state = 'disabled')
         self.widgetDict['Location']['Type'] = 'Text'
         self.widgetDict['Location']['Index'] = self.widgetDict['count']
+        # Bind enter and tab key to be ignored the textbox
+        self.widgetDict['Location']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict['Location']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
         # Place Location label and text entry
         self.widgetDict['Location']['Label'].grid(row = self.widgetDict['Location']['Index'], column = 0, sticky = "E")
         self.widgetDict['Location']['Widget'].grid(row = self.widgetDict['Location']['Index'], column = 1, sticky = "W")
         # Increment widget count
         self.widgetDict['count'] += 1
 
-        # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 4
+        # Declare Cost label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 4
         self.widgetDict['Cost'] = {}
         self.widgetDict['Cost']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
-        self.widgetDict['Cost']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['Cost']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
         self.widgetDict['Cost']['Widget'].insert(tk.END, "Original Cost")
         self.widgetDict['Cost']['Widget'].config(state = 'disabled')
         self.widgetDict['Cost']['Type'] = 'Text'
         self.widgetDict['Cost']['Index'] = self.widgetDict['count']
+        # Bind enter and tab key to be ignored the textbox
+        self.widgetDict['Cost']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict['Cost']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
         # Place Location label and text entry
         self.widgetDict['Cost']['Label'].grid(row = self.widgetDict['Cost']['Index'], column = 0, sticky = "E")
         self.widgetDict['Cost']['Widget'].grid(row = self.widgetDict['Cost']['Index'], column = 1, sticky = "W")
         # Increment widget count
         self.widgetDict['count'] += 1
 
-        # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 5
+        # Declare Year of Purchase label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 5
         self.widgetDict['YearOfPurchase'] = {}
         self.widgetDict['YearOfPurchase']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
-        self.widgetDict['YearOfPurchase']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['YearOfPurchase']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
         self.widgetDict['YearOfPurchase']['Widget'].insert(tk.END, "Year Of Purchase")
         self.widgetDict['YearOfPurchase']['Widget'].config(state = 'disabled')
         self.widgetDict['YearOfPurchase']['Type'] = 'Text'
         self.widgetDict['YearOfPurchase']['Index'] = self.widgetDict['count']
+        # Bind enter and tab key to be ignored the textbox
+        self.widgetDict['YearOfPurchase']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict['YearOfPurchase']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
         # Place Location label and text entry
         self.widgetDict['YearOfPurchase']['Label'].grid(row = self.widgetDict['YearOfPurchase']['Index'], column = 0, sticky = "E")
         self.widgetDict['YearOfPurchase']['Widget'].grid(row = self.widgetDict['YearOfPurchase']['Index'], column = 1, sticky = "W")
         # Increment widget count
         self.widgetDict['count'] += 1
 
-        # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 6
+        # Declare Year of Disposal label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 6
         self.widgetDict['YearOfDisposal'] = {}
         self.widgetDict['YearOfDisposal']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
-        self.widgetDict['YearOfDisposal']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['YearOfDisposal']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
         self.widgetDict['YearOfDisposal']['Widget'].insert(tk.END, "Year Of Disposal")
         self.widgetDict['YearOfDisposal']['Widget'].config(state = 'disabled')
         self.widgetDict['YearOfDisposal']['Type'] = 'Text'
         self.widgetDict['YearOfDisposal']['Index'] = self.widgetDict['count']
+        # Bind enter and tab key to be ignored the textbox
+        self.widgetDict['YearOfDisposal']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict['YearOfDisposal']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
         # Place Location label and text entry
         self.widgetDict['YearOfDisposal']['Label'].grid(row = self.widgetDict['YearOfDisposal']['Index'], column = 0, sticky = "E")
         self.widgetDict['YearOfDisposal']['Widget'].grid(row = self.widgetDict['YearOfDisposal']['Index'], column = 1, sticky = "W")
+        # Increment widget count
+        self.widgetDict['count'] += 1
+
+        # Declare Description label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 7
+        self.widgetDict['Description'] = {}
+        self.widgetDict['Description']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
+        self.widgetDict['Description']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 40)
+        self.widgetDict['Description']['Widget'].insert(tk.END, "Description")
+        self.widgetDict['Description']['Widget'].config(state = 'disabled')
+        self.widgetDict['Description']['Type'] = 'Text'
+        self.widgetDict['Description']['Index'] = self.widgetDict['count']
+        # Bind enter and tab key to be ignored the textbox
+        self.widgetDict['Description']['Widget'].bind("<Return>", lambda x=None: self.ignoreInput())
+        self.widgetDict['Description']['Widget'].bind("<Tab>", lambda x=None: self.ignoreInput())
+        # Place Location label and text entry
+        self.widgetDict['Description']['Label'].grid(row = self.widgetDict['Description']['Index'], column = 0, sticky = "E")
+        self.widgetDict['Description']['Widget'].grid(row = self.widgetDict['Description']['Index'], column = 1, sticky = "W")
         # Increment widget count
         self.widgetDict['count'] += 1
 
