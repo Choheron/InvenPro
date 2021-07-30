@@ -139,6 +139,9 @@ class CPUMenu(tk.Frame):
     def refreshListBox(self):
         self.__cpuListBox.delete(0, tk.END)
 
+        # Reload PC dict to ensure any new data is pulled
+        GLOBAL.loadPCdict()
+
         # Populate list with items based off of number of computers TODO: Fix possible number issue with removed PC 
         for number in range(1, GLOBAL.pcDict['admin']['cpuCount'] + 1): 
             if(number < 10):
