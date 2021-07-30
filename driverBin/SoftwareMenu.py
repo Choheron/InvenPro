@@ -66,7 +66,7 @@ class SoftwareMenu(tk.Frame):
     # ==============================
     # EDIT SOFTWARE DETAILS METHOD BELOW
     # ==============================
-    def editDetails(self, softIndex, pcIndex):
+    def editDetails(self):
         # Get the current selections
         software = str((self.softwareListBox.get(self.softwareListBox.curselection())))
         pc = str((self.pcListBox.get(self.pcListBox.curselection())))[:12]
@@ -424,7 +424,7 @@ class SoftwareMenu(tk.Frame):
         canvasParentFrame.grid(row = 4, column = 0, columnspan = 2, sticky = "NESW")
 
         # Create and place edit details button
-        self.editDetailsBttn = ttk.Button(master = self, text = "Edit Details", style = "M.TButton", command = lambda: self.editDetails(self.softwareListBox.curselection(),self.softwareListBox.curselection()))
+        self.editDetailsBttn = ttk.Button(master = self, text = "Edit Details", style = "M.TButton", command = lambda: self.editDetails())
         self.editDetailsBttn.grid(row = 5, column = 1, sticky = "E")
         # Disable edit details, edit software and delete software button until a PC or Software is selected
         self.editSoftBttn.config(state = 'disabled')
