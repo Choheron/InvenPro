@@ -17,7 +17,7 @@ class StartPage(tk.Frame):
         greetingFrame = tk.Frame(master = self)
         
         # TODO: Replace with newer, nicer image
-        image = ImageTk.PhotoImage(file = (os.getcwd() + '/driverBin/images/MASLD Logo/LogoCroppedTransparent.png'))
+        image = ImageTk.PhotoImage(file = (os.getcwd() + '/driverBin/images/LogoV1Alpha.png'))
         startImage = tk.Label(master = imageFrame, image = image)
         startImage.image = image
         startImage.grid(row = 0, column = 0)

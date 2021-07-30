@@ -10,7 +10,6 @@ from driverBin.SoftwareMenu import SoftwareMenu
 from driverBin.OfficeMenu import OfficeMenu
 from driverBin.FieldMenu import FieldMenu
 
-
 class InvenPro(tk.Tk):
     def __init__(self):
         # Initalize the global module
