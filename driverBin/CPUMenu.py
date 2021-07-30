@@ -183,6 +183,9 @@ class CPUMenu(tk.Frame):
         # Declare CPU Listbox and populate it with the names of the computers
         self.__cpuListBox = tk.Listbox(master = self, width = 50, height = 30, selectmode = 'single', exportselection = False)
         for PC in GLOBAL.pcDict: # Populate list with items based off of number of computers TODO: Fix possible number issue with removed PC
+            # Skip admin dict
+            if(PC == 'admin'):
+                continue
             self.__cpuListBox.insert(tk.END, (PC + f': {GLOBAL.pcDict[PC]["userInit"]}'))
         self.__cpuListBox.grid(row = 3, column = 0, columnspan = 3, sticky = 'W')
 
