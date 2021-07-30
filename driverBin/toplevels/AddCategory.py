@@ -257,7 +257,7 @@ class AddCategory(tk.Toplevel):
         self.widgetDict = {}
         self.widgetDict['count'] = 0
 
-        # Declare category Data and configure widgetDict
+        # Declare category Data and configure widgetDict ---- DEFAULT ATTRIBUTE 1
         self.widgetDict['Name'] = {}
         self.widgetDict['Name']['Label'] = tk.Label(master = self.attrFrame, text = "Category Name:")
         self.widgetDict['Name']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
@@ -273,7 +273,7 @@ class AddCategory(tk.Toplevel):
         self.widgetDict['Name']['Label'].grid(row = self.widgetDict['Name']['Index'], column = 0, sticky = "NESW")
         self.widgetDict['Name']['Widget'].grid(row = self.widgetDict['Name']['Index'], column = 1, sticky = "W")
 
-        # Declare Identifier label and text entry and place them in widgetDict
+        # Declare Identifier label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 2
         self.widgetDict['Nickname'] = {}
         self.widgetDict['Nickname']['Label'] = tk.Label(master = self.attrFrame, text = "Category Nickname:")
         self.widgetDict['Nickname']['Widget'] = []
@@ -300,17 +300,59 @@ class AddCategory(tk.Toplevel):
         self.widgetDict['Nickname']['Label'].grid(row = self.widgetDict['Nickname']['Index'], column = 0, sticky = "NESW")
         nickFrame.grid(row = self.widgetDict['Nickname']['Index'], column = 1, sticky = "W")
 
-        # Declare Location label and text entry and place them in widgetDict
-        self.widgetDict['Attr2'] = {}
-        self.widgetDict['Attr2']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
-        self.widgetDict['Attr2']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
-        self.widgetDict['Attr2']['Widget'].insert(tk.END, "Location")
-        self.widgetDict['Attr2']['Widget'].config(state = 'disabled')
-        self.widgetDict['Attr2']['Type'] = 'Text'
-        self.widgetDict['Attr2']['Index'] = self.widgetDict['count']
+        # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 3
+        self.widgetDict['Location'] = {}
+        self.widgetDict['Location']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
+        self.widgetDict['Location']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['Location']['Widget'].insert(tk.END, "Location")
+        self.widgetDict['Location']['Widget'].config(state = 'disabled')
+        self.widgetDict['Location']['Type'] = 'Text'
+        self.widgetDict['Location']['Index'] = self.widgetDict['count']
         # Place Location label and text entry
-        self.widgetDict['Attr2']['Label'].grid(row = self.widgetDict['Attr2']['Index'], column = 0, sticky = "E")
-        self.widgetDict['Attr2']['Widget'].grid(row = self.widgetDict['Attr2']['Index'], column = 1, sticky = "W")
+        self.widgetDict['Location']['Label'].grid(row = self.widgetDict['Location']['Index'], column = 0, sticky = "E")
+        self.widgetDict['Location']['Widget'].grid(row = self.widgetDict['Location']['Index'], column = 1, sticky = "W")
+        # Increment widget count
+        self.widgetDict['count'] += 1
+
+        # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 4
+        self.widgetDict['Cost'] = {}
+        self.widgetDict['Cost']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
+        self.widgetDict['Cost']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['Cost']['Widget'].insert(tk.END, "Original Cost")
+        self.widgetDict['Cost']['Widget'].config(state = 'disabled')
+        self.widgetDict['Cost']['Type'] = 'Text'
+        self.widgetDict['Cost']['Index'] = self.widgetDict['count']
+        # Place Location label and text entry
+        self.widgetDict['Cost']['Label'].grid(row = self.widgetDict['Cost']['Index'], column = 0, sticky = "E")
+        self.widgetDict['Cost']['Widget'].grid(row = self.widgetDict['Cost']['Index'], column = 1, sticky = "W")
+        # Increment widget count
+        self.widgetDict['count'] += 1
+
+        # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 5
+        self.widgetDict['YearOfPurchase'] = {}
+        self.widgetDict['YearOfPurchase']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
+        self.widgetDict['YearOfPurchase']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['YearOfPurchase']['Widget'].insert(tk.END, "Year Of Purchase")
+        self.widgetDict['YearOfPurchase']['Widget'].config(state = 'disabled')
+        self.widgetDict['YearOfPurchase']['Type'] = 'Text'
+        self.widgetDict['YearOfPurchase']['Index'] = self.widgetDict['count']
+        # Place Location label and text entry
+        self.widgetDict['YearOfPurchase']['Label'].grid(row = self.widgetDict['YearOfPurchase']['Index'], column = 0, sticky = "E")
+        self.widgetDict['YearOfPurchase']['Widget'].grid(row = self.widgetDict['YearOfPurchase']['Index'], column = 1, sticky = "W")
+        # Increment widget count
+        self.widgetDict['count'] += 1
+
+        # Declare Location label and text entry and place them in widgetDict ---- DEFAULT ATTRIBUTE 6
+        self.widgetDict['YearOfDisposal'] = {}
+        self.widgetDict['YearOfDisposal']['Label'] = tk.Label(master = self.attrFrame, text = "Required Attribute:")
+        self.widgetDict['YearOfDisposal']['Widget'] = tk.Text(master = self.attrFrame, height = 1, width = 30)
+        self.widgetDict['YearOfDisposal']['Widget'].insert(tk.END, "Year Of Disposal")
+        self.widgetDict['YearOfDisposal']['Widget'].config(state = 'disabled')
+        self.widgetDict['YearOfDisposal']['Type'] = 'Text'
+        self.widgetDict['YearOfDisposal']['Index'] = self.widgetDict['count']
+        # Place Location label and text entry
+        self.widgetDict['YearOfDisposal']['Label'].grid(row = self.widgetDict['YearOfDisposal']['Index'], column = 0, sticky = "E")
+        self.widgetDict['YearOfDisposal']['Widget'].grid(row = self.widgetDict['YearOfDisposal']['Index'], column = 1, sticky = "W")
         # Increment widget count
         self.widgetDict['count'] += 1
 

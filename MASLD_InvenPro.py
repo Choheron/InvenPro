@@ -17,6 +17,9 @@ class InvenPro(tk.Tk):
         # Decleare self as root Tk process
         tk.Tk.__init__(self, className = ' MASLD-InvenPro')
 
+        # Set Icon for Window
+        self.iconbitmap(os.getcwd() + '/driverBin/images/icons/DesktopIcon 32x32.ico')
+
         # Declare the master control frame for pages
         self.container = tk.Frame(self) 
         self.container.pack(side = "top", fill = "both", expand = True)
