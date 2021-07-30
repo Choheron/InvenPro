@@ -22,6 +22,8 @@ class FieldMenu(tk.Frame):
     # ==============================
     # CATEGORY BUTTON METHODS BELOW
     # ==============================
+
+    # NOTE: Be sure to always save the dict globally BEFORE reloading or refreshing (this is due to the save order of the items)
     def addCategory(self):
         self.addCatBttn.config(state = 'disabled')
         catName = tk.StringVar(master = self, value = None)
@@ -89,6 +91,8 @@ class FieldMenu(tk.Frame):
         self.disableListbox(self.fItemListBox)
         # Clear category listbox
         self.fCatListBox.delete(0, tk.END)
+        # Reload field dict GLOBALLY
+        GLOBAL.loadFielddict()
         # Loop Through and populate category listbox
         for category in GLOBAL.fieldDict:
             # Skip admin dict

@@ -85,6 +85,7 @@ class CPUMenu(tk.Frame):
     # ADD COMPUTER METHODS BELOW
     # ============================== 
 
+    # NOTE: Be sure to always save the dict globally BEFORE reloading or refreshing (this is due to the save order of the items)
     def addPC(self):
         # Disable add button while add window is open
         self.cAddPCButtn.config(state = 'disabled') 
@@ -95,6 +96,8 @@ class CPUMenu(tk.Frame):
         # Reactivate the add button
         self.cAddPCButtn.config(state = 'normal') 
         self.__cpuListBox.config(state = 'normal')
+        # Save changes to PC storage file
+        GLOBAL.savePCdict()
         # Refresh the listbox to show new addition
         self.refreshListBox()
         # Set the current index to the added PC
@@ -103,8 +106,6 @@ class CPUMenu(tk.Frame):
         self.__cpuListBox.select_set(self.__currIndex)
         # Update the display to show the added PC
         self.showDetails(self.__currIndex)
-        # Save changes to PC storage file
-        GLOBAL.savePCdict()
 
 
     # ==============================

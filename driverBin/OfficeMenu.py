@@ -22,6 +22,8 @@ class OfficeMenu(tk.Frame):
     # ==============================
     # CATEGORY BUTTON METHODS BELOW
     # ==============================
+
+    # NOTE: Be sure to always save the dict globally BEFORE reloading or refreshing (this is due to the save order of the items)
     def addCategory(self):
         self.addCatBttn.config(state = 'disabled')
         catName = tk.StringVar(master = self, value = None)
@@ -41,7 +43,6 @@ class OfficeMenu(tk.Frame):
         GLOBAL.saveOfficedict()
         # Refresh category list
         self.refreshList()
-        return
 
     def delCategory(self):
         # Get currently selected category from category list
@@ -89,6 +90,8 @@ class OfficeMenu(tk.Frame):
         self.disableListbox(self.oItemListBox)
         # Clear category listbox
         self.oCatListBox.delete(0, tk.END)
+        # Reload office dict GLOBALLY
+        GLOBAL.loadOfficedict()
         # Loop Through and populate category listbox
         for category in GLOBAL.officeDict:
             # Skip admin dict

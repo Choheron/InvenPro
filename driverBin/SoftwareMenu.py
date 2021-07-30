@@ -25,6 +25,8 @@ class SoftwareMenu(tk.Frame):
     # ==============================
     # ADD SOFTWARE METHOD BELOW
     # ==============================
+
+    # NOTE: Be sure to always save the dict globally BEFORE reloading or refreshing (this is due to the save order of the items)
     def addSoftware(self):
         self.addSoftBttn.config(state = 'disabled')
         newName = tk.StringVar(master = self, value = None)
@@ -260,6 +262,8 @@ class SoftwareMenu(tk.Frame):
         self.dTopLabel.config(text = f'Select a software and a PC to see details in the window below:')
         # Delete current contents of software listbox
         self.softwareListBox.delete(0, tk.END)
+        # Reload software dict GLOBALLY
+        GLOBAL.loadSoftdict()
         # Populate list with items based off of number of softwares (Skip admin dict)
         for software in GLOBAL.softDict: 
             if(software == 'admin'):
