@@ -183,15 +183,8 @@ class CPUMenu(tk.Frame):
 
         # Declare CPU Listbox and populate it with the names of the computers
         self.__cpuListBox = tk.Listbox(master = self, width = 50, height = 30, selectmode = 'single', exportselection = False)
-        for number in range(1, GLOBAL.pcDict['admin']['cpuCount'] + 1): # Populate list with items based off of number of computers TODO: Fix possible number issue with removed PC 
-            if(number < 10):
-                out = f'MASLD-PC-00{number}'
-            elif(number < 100):
-                out = f'MASLD-PC-0{number}'
-            else:
-                out = f'MASLD-PC-{number}'
-
-            self.__cpuListBox.insert(number, (out + f': {GLOBAL.pcDict[out]["userInit"]}'))
+        for PC in GLOBAL.pcDict: # Populate list with items based off of number of computers TODO: Fix possible number issue with removed PC
+            self.__cpuListBox.insert(tk.END, (PC + f': {GLOBAL.pcDict[PC]["userInit"]}'))
         self.__cpuListBox.grid(row = 3, column = 0, columnspan = 3, sticky = 'W')
 
         # Delcare the scrollbar for the listBox
