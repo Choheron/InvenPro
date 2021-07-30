@@ -1,4 +1,4 @@
-# InvenPro - MASLD
+# InvenPro - MASLD [InvenPro Small Logo](driverBin/images/icons/DesktopIcon 64x64.ico)
 **InvenPro** is an inventory program built entirely in **Python**, created for "Mid Atlantic Surveying and Land Design" and currently in use to keep inventory. 
 
 ## Features
