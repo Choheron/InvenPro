@@ -143,16 +143,11 @@ class CPUMenu(tk.Frame):
         # Reload PC dict to ensure any new data is pulled
         GLOBAL.loadPCdict()
 
-        # Populate list with items based off of number of computers TODO: Fix possible number issue with removed PC 
-        for number in range(1, GLOBAL.pcDict['admin']['cpuCount'] + 1): 
-            if(number < 10):
-                out = f'MASLD-PC-00{number}'
-            elif(number < 100):
-                out = f'MASLD-PC-0{number}'
-            else:
-                out = f'MASLD-PC-{number}'
-
-            self.__cpuListBox.insert(number, (out + f': {GLOBAL.pcDict[out]["userInit"]}'))
+        for PC in GLOBAL.pcDict: # Populate list with items based off of number of computers
+            # Skip admin dict
+            if(PC == 'admin'):
+                continue
+            self.__cpuListBox.insert(tk.END, (PC + f': {GLOBAL.pcDict[PC]["userInit"]}'))
         
         GLOBAL.pcDict['admin']['updated'] = (str)(datetime.now())[:-7]
         self.clastUpdatedLabel.config(text = f'Updated: {GLOBAL.pcDict["admin"]["updated"]}')
