@@ -4,6 +4,7 @@ from . import jsonUtils as JSONu
 pcDict = {}
 softDict = {}
 officeDict = {}
+adminDict = {}
 
 def init(root):
     # Declare the PC Dictionary and its filepath to the Json
@@ -29,6 +30,12 @@ def init(root):
     global fieldJsonFilepath
     fieldJsonFilepath = (os.getcwd() + '/driverBin/data/fieldInvData.json')
     fieldDict = JSONu.loadJSON(fieldJsonFilepath)
+
+    # Declare the admin Dictionary and its filepath to the Json -- NOTE: Admin dict must be stored locally in order to avoid issues with filepaths
+    global adminDict
+    global adminJsonFilepath
+    adminJsonFilepath = (os.getcwd())
+    adminDict = JSONu.loadJSON(adminJsonFilepath)
 
 def savePCdict():
     global pcDict
@@ -65,6 +72,15 @@ def saveFielddict():
 def loadFielddict():
     global fieldDict
     fieldDict = JSONu.loadJSON(fieldJsonFilepath)
+
+def saveAdmindict():
+    global adminDict
+    JSONu.dumpJSON(adminDict, adminJsonFilepath)
+    adminDict = JSONu.loadJSON(adminJsonFilepath)
+
+def loadAdmindict():
+    global adminDict
+    adminDict = JSONu.loadJSON(adminJsonFilepath)
 
 def setIconInvenPro(window):
     # Set Icon for Window
