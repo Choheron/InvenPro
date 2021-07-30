@@ -168,10 +168,6 @@ class CPUMenu(tk.Frame):
     # DRIVER METHODS BELOW
     # ============================== 
     def launchCPUDriver(self, root):
-        # Check if 'cpuCount' field exists, make one if there isnt one
-        if(not(GLOBAL.pcDict['admin'].has_key('cpuCount'))):
-            GLOBAL.pcDict['admin']['cpuCount'] = 0
-
         # Below: ALL GUI Elements related to the List of Computers and the labels above it.
         ctopLabel = tk.Label(master = self, text = "A list of the current computers can be found below:")
         ctopLabel.grid(row = 0, column = 0, columnspan = 4)

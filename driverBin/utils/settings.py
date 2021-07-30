@@ -11,6 +11,9 @@ def init(root):
     global pcJsonFilepath
     pcJsonFilepath = (os.getcwd() + '/driverBin/storage/CPUData.json')
     pcDict = JSONu.loadJSON(pcJsonFilepath)
+    # Check if 'cpuCount' field exists, make one if there isnt one - TODO: Move and make less messy
+    if(not(pcDict['admin'].has_key('cpuCount'))):
+        pcDict['admin']['cpuCount'] = 0
 
     # Declare the Software Dictionary and its filepath to the Json
     global softDict
