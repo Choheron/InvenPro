@@ -1,5 +1,5 @@
 from datetime import datetime
-import os
+import os, sys
 import tkinter as tk
 import tkinter.messagebox
 from driverBin.utils import settings as GLOBAL
@@ -79,7 +79,7 @@ class InvenPro(tk.Tk):
     def terminate(self):
         response = tk.messagebox.askyesno(title = "Are you sure?", message = "You are about to close the program!\nAll unsaved data/changes will be lost.\nAre you sure?")
         if(response):
-            exit()
+            sys.exit()
         else:
             return
 
