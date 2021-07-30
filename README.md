@@ -6,8 +6,10 @@
 * User friendly UI that allows most employees to better navigate and interact with the program.
 * Storage of all changes and information locally, in Json files.
 * Sorts Inventory by __Computers__, __Softwares__, __Office Items__, __Field Items__
-* The ability to export data to Excel sheets for Tax or Archive reasons. (Planned)
-* The ability to filter all items and computers by location or other attributes. (Planned)
+* Export data to Excel sheets for Tax or Archive reasons. (Planned)
+* Filter all items and computers by location or other attributes. (Planned)
+* Add and remove default attributes (Planned)
+* Backup storage to local system in case of crashes or unexpected loss of information (Planned)
 
 ## Developed by [Thomas Campbell](https://thomascampbell.dev/)
 * Built in python, due to pythons ease of interaction with Excel and Json files, InvenPro uses **Tkinter**, **Pillow**, **Openpyxl**, **Pyinstaller** and more.
