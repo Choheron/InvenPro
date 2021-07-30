@@ -10,7 +10,7 @@ def init(root):
     # Declare the admin Dictionary and its filepath to the Json -- NOTE: Admin dict must be stored locally in order to avoid issues with filepaths
     global adminDict
     global adminJsonFilepath
-    adminJsonFilepath = (os.getcwd())
+    adminJsonFilepath = (os.getcwd() + "/adminDict.json")
     adminDict = JSONu.loadJSON(adminJsonFilepath)
 
     # Declare the PC Dictionary and its filepath to the Json
