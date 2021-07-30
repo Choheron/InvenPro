@@ -12,7 +12,7 @@ def init(root):
     pcJsonFilepath = (os.getcwd() + '/driverBin/storage/CPUData.json')
     pcDict = JSONu.loadJSON(pcJsonFilepath)
     # Check if 'cpuCount' field exists, make one if there isnt one - TODO: Move and make less messy
-    if(not(pcDict['admin'].has_key('cpuCount'))):
+    if(not('cpuCount' in pcDict['admin'])):
         pcDict['admin']['cpuCount'] = 0
 
     # Declare the Software Dictionary and its filepath to the Json
