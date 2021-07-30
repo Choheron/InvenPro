@@ -7,6 +7,12 @@ officeDict = {}
 adminDict = {}
 
 def init(root):
+    # Declare the admin Dictionary and its filepath to the Json -- NOTE: Admin dict must be stored locally in order to avoid issues with filepaths
+    global adminDict
+    global adminJsonFilepath
+    adminJsonFilepath = (os.getcwd())
+    adminDict = JSONu.loadJSON(adminJsonFilepath)
+
     # Declare the PC Dictionary and its filepath to the Json
     global pcDict
     global pcJsonFilepath
@@ -30,12 +36,6 @@ def init(root):
     global fieldJsonFilepath
     fieldJsonFilepath = (os.getcwd() + '/driverBin/data/fieldInvData.json')
     fieldDict = JSONu.loadJSON(fieldJsonFilepath)
-
-    # Declare the admin Dictionary and its filepath to the Json -- NOTE: Admin dict must be stored locally in order to avoid issues with filepaths
-    global adminDict
-    global adminJsonFilepath
-    adminJsonFilepath = (os.getcwd())
-    adminDict = JSONu.loadJSON(adminJsonFilepath)
 
 def savePCdict():
     global pcDict
