@@ -226,8 +226,10 @@ class AddCategory(tk.Toplevel):
         # Create and place direction labels
         dirLabel1 = tk.Label(master = dirFrame, text = "Fill out information to add a new Category of Item.", font = 'Times 20 bold', bg = 'grey')
         dirLabel2 = tk.Label(master = dirFrame, text = "Use the buttons at the bottom of the window to add new fields.\nThe example window at the bottom will reflect your current setup.", bg = 'grey')
+        dirLabel3 = tk.Label(master = dirFrame, text = "Important attributes to think about including (If Applicable): Serial #, VIM #, Components, etc.", bg = 'grey')
         dirLabel1.grid(row = 0, column = 0, sticky = "EW")
         dirLabel2.grid(row = 1, column = 0, sticky = "EW")
+        dirLabel3.grid(row = 2, column = 0, sticky = "EW")
         # Place direction master frame
         dirFrame.grid(row = 0, column = 0, sticky = "NESW")
 
