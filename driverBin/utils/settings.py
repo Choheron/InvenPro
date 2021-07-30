@@ -66,15 +66,6 @@ def loadFielddict():
     global fieldDict
     fieldDict = JSONu.loadJSON(fieldJsonFilepath)
 
-def saveAdmindict():
-    global adminDict
-    JSONu.dumpJSON(adminDict, adminJsonFilepath)
-    adminDict = JSONu.loadJSON(adminJsonFilepath)
-
-def loadAdmindict():
-    global adminDict
-    adminDict = JSONu.loadJSON(adminJsonFilepath)
-
 def setIconInvenPro(window):
     # Set Icon for Window
     window.iconbitmap(os.getcwd() + '/driverBin/images/icons/DesktopIcon 32x32.ico')
