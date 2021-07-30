@@ -11,7 +11,7 @@ class StartPage(tk.Frame):
         self.parent = parent
         self.pageDict = pageDict
         # TODO: Create an Icon for InvenPro
-        root.title(' HomePage - InvenPro V0.1A')
+        root.title(' HomePage - InvenPro v0.1-alpha')
 
         imageFrame = tk.Frame(master = self)
         greetingFrame = tk.Frame(master = self)
