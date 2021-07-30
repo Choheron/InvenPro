@@ -9,25 +9,25 @@ def init(root):
     # Declare the PC Dictionary and its filepath to the Json
     global pcDict
     global pcJsonFilepath
-    pcJsonFilepath = (os.getcwd() + '/driverBin/data/CPUData.json')
+    pcJsonFilepath = (os.getcwd() + '/driverBin/storage/CPUData.json')
     pcDict = JSONu.loadJSON(pcJsonFilepath)
 
     # Declare the Software Dictionary and its filepath to the Json
     global softDict
     global softJsonFilepath
-    softJsonFilepath = (os.getcwd() + '/driverBin/data/SoftwareData.json')
+    softJsonFilepath = (os.getcwd() + '/driverBin/storage/SoftwareData.json')
     softDict = JSONu.loadJSON(softJsonFilepath)
 
     # Declare the Office Dictionary and its filepath to the Json
     global officeDict
     global officeJsonFilepath
-    officeJsonFilepath = (os.getcwd() + '/driverBin/data/OfficeData.json')
+    officeJsonFilepath = (os.getcwd() + '/driverBin/storage/OfficeData.json')
     officeDict = JSONu.loadJSON(officeJsonFilepath)
 
     # Declare the Field Dictionary and its filepath to the Json
     global fieldDict
     global fieldJsonFilepath
-    fieldJsonFilepath = (os.getcwd() + '/driverBin/data/fieldInvData.json')
+    fieldJsonFilepath = (os.getcwd() + '/driverBin/storage/fieldInvData.json')
     fieldDict = JSONu.loadJSON(fieldJsonFilepath)
 
 def savePCdict():
