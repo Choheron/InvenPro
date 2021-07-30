@@ -60,11 +60,11 @@ class FieldMenu(tk.Frame):
         if(resultVar.get() == category):
             # Delete category from dict
             del GLOBAL.fieldDict[category]
+            # Save new dict to finalize deletion
+            GLOBAL.saveFielddict()
             # Refresh listbox if a category was deleted
             self.refreshList()
             messagebox.showinfo(" Deletion successful", f"Successfully deleted {category} from the system... If this was a mistake you will need to re-add the category and re-enter all associated data.")
-            # Save new dict to finalize deletion
-            GLOBAL.saveFielddict()
         else:
             messagebox.showinfo(" Deletion UNSUCESSFUL", f"IMPORTANT: {category} has NOT been deleted from the system.")
         

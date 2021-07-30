@@ -111,11 +111,11 @@ class SoftwareMenu(tk.Frame):
         if(resultVar.get() == software):
             # Delete software from dict
             del GLOBAL.softDict[software]
+            # Save new dict to finalize deletion
+            GLOBAL.saveSoftdict()
             # Refresh listbox if a software was deleted
             self.refreshSoftList()
             tk.messagebox.showinfo(" Deletion successful", f"Successfully deleted {software} from the system... If this was a mistake you will need to re-add the software and re-enter all associated data.")
-            # Save new dict to finalize deletion
-            GLOBAL.saveSoftdict()
         else:
             tk.messagebox.showinfo(" Deletion UNSUCESSFUL", f"IMPORTANT: {software} has NOT been deleted from the system.")
         
